@@ -7,3 +7,6 @@
 [submodule "iot-rapids"]
 	path = iot-rapids
 	url = https://github.com/klemenkenda/iot-rapids
+[submodule "forecasting"]
+	path = forecasting
+	url = https://github.com/JozefStefanInstitute/forecasting
