@@ -1,0 +1,9 @@
+[submodule "ml-rapids"]
+	path = ml-rapids
+	url = https://github.com/JozefStefanInstitute/ml-rapids
+[submodule "iot-fusion"]
+	path = iot-fusion
+	url = https://github.com/JozefStefanInstitute/iot-fusion
+[submodule "iot-rapids"]
+	path = iot-rapids
+	url = https://github.com/klemenkenda/iot-rapids
