@@ -1,0 +1,11 @@
+{
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "carouge",
+    "required_attributes": ["soilMoisture", "depth"],
+    "output_attributes_names": ["soilMoisture", "depth"],
+    "output": "KafkaOutput()",
+    "output_configuration": {
+
+    }
+}
