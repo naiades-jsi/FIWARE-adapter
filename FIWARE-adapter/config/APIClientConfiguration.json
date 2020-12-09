@@ -2,10 +2,13 @@
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "carouge",
+    "entity_id": "urn:ngsi-ld:FlowerBed:FlowerBed-1",
     "required_attributes": ["soilMoisture", "depth"],
-    "output_attributes_names": ["soilMoisture", "depth"],
+    "output_attributes_names": ["soil_moisture", "depth"],
+    "from": "2020-12-01T10:32:19.000",
     "output": "KafkaOutput()",
     "output_configuration": {
-
+        "topic": "APIClientTest",
+        "bootstrap_server": "localhost:9092"
     }
 }
