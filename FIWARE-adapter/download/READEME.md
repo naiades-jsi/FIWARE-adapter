@@ -8,8 +8,11 @@ The configuration file should contain the following fileds:
 * port: The port of the API (eg. "8668"),
 * fiware_service: Fiware Service for the request (eg. "carouge"),
 * entity_id: Id of the entity whose data we are obtaining. (eg. "urn:ngsi-ld:FlowerBed:FlowerBed-1"),
+* time_between_samples: Approximate time in seconds between two samples. (eg. 60)
 * required_attributes: Attributes that are to be obtained from the API. (eg. ["soilMoisture", "depth"]),
-* output_attributes_names: Names of the attributes for the outputted object, corresponding with the required attributes. Timestamp is always added as timestamp. (eg.["soil_moisture", "depth"]),
+* output_attributes_names: Optional parameter that defines names of the attributes for the outputted object, corresponding with the required attributes. Timestamp is always added as timestamp. If it is not specified the required_attributes are used as output names. (eg.["soil_moisture", "depth"]),
+* output_timestampe_name: Optional parameter that defines the name under which the timestamp will be outputted. If it is not specified "timestamp" will be used. (eg. "time"),
+* output_timestamp_format": Optional parameter that defines the format in which the outputted timestamp will be. If it is not specified "iso8601" will be used. (eg. "unix_time"),
 * from: An optional parameter containing the date from which data will be obtained. If it is not specified all data is obtained. It should be in a SO8601 format (eg"2020-12-01T10:32:19.000"),
 * output: The output type (eg. "KafkaOutput()"),
 * output_configuration: An object containing the configuration for the output containing the following fields (for KafkaOutput):
@@ -24,4 +27,5 @@ APIClientTest file contains an example of running the clinet and kafkaConsumer f
 In APIClientTest the obtain method is called every time_interval seconds where time interval contains the expected time between two samples in API.
 
 TODO:
-Do the same with subscription.
+* iso8601 to unix time conversion is done withou specifiing timezone. If needed that is to be fixed.
+* Do the same with subscription.

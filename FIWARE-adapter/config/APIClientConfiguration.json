@@ -3,8 +3,11 @@
     "port": "8668",
     "fiware_service": "carouge",
     "entity_id": "urn:ngsi-ld:FlowerBed:FlowerBed-1",
+    "time_between_samples": 60,
     "required_attributes": ["soilMoisture", "depth"],
     "output_attributes_names": ["soil_moisture", "depth"],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
     "from": "2020-12-01T10:32:19.000",
     "output": "KafkaOutput()",
     "output_configuration": {
