@@ -147,10 +147,25 @@ class NaiadesClient():
                     print("Output timestamp format not supported")
                     exit(1)
 
+                # Loops over required attributes and adds them to the
+                # output_dict
                 output_dict = {self.output_timestampe_name: t}
                 for i in range(len(self.required_attributes)):
-                    output_dict[self.output_attributes_names[i]] =\
-                        attributers_dict[self.required_attributes[i]]
+                    output_attribute_name = self.output_attributes_names[i]
+                    attribute = attributers_dict[self.required_attributes[i]][sample]
+                    # If output_attribute_name is a list that means that 
+                    # attribute is also a list and elements of the list are
+                    # added to the output_dict.
+                    if(isinstance(output_attribute_name, list)):
+                        if(not isinstance(attribute, list)):
+                            print("Incompatible output names specification.")
+                            exit(1)
+                        for name_idx in range(len(output_attribute_name)):
+                            name = output_attribute_name[name_idx]
+                            output_dict[name] = attribute[name_idx]
+
+                    else:
+                        output_dict[output_attribute_name] = attribute
                 # Send out the dictionary with the output component
                 self.output.send_out(output_dict=output_dict)
 

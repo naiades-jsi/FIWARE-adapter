@@ -9,7 +9,7 @@
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
     "from": "2020-12-01T10:32:19.000",
-    "output": "KafkaOutput()",
+    "output": "TerminalOutput()",
     "output_configuration": {
         "topic": "APIClientTest",
         "bootstrap_server": "localhost:9092"

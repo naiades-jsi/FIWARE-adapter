@@ -1,5 +1,5 @@
-The NaiadesClient gets data from the NAIADES historic API from a specified date by calling obtain() method. If obtain is called multiple times on the same object only new data will be obtained. 
-The data obtained is then passed on to a kafka server.
+The NaiadesClient gets data of a specified entity from the NAIADES historic API from a specified date by calling obtain() method. If obtain is called multiple times on the same object only new data will be obtained. 
+The data obtained is then passed on to a kafka server in a specified form.
 The configuration of the client is defined in the configuration file that should be specified when initializing a NaiadesClient object (by specifiing path to the file eg. .\config\APIClientConfiguration.json). 
 
 # Configuration file
@@ -10,7 +10,7 @@ The configuration file should contain the following fileds:
 * entity_id: Id of the entity whose data we are obtaining. (eg. "urn:ngsi-ld:FlowerBed:FlowerBed-1"),
 * time_between_samples: Approximate time in seconds between two samples. (eg. 60)
 * required_attributes: Attributes that are to be obtained from the API. (eg. ["soilMoisture", "depth"]),
-* output_attributes_names: Optional parameter that defines names of the attributes for the outputted object, corresponding with the required attributes. Timestamp is always added as timestamp. If it is not specified the required_attributes are used as output names. (eg.["soil_moisture", "depth"]),
+* output_attributes_names: Optional parameter containing a list of names of the attributes for the outputted object, corresponding with the required attributes. If an element of a list is a list of names then the cooresponding attribute must also be a list of the male length (eg. attribute nemed value in API contains [1, 24, 9] and we want to name elements "leak_state", "noise_dB", "spre_dB" (for example see client5981.json configuretion file)). If it is not specified the required_attributes are used as output names,
 * output_timestampe_name: Optional parameter that defines the name under which the timestamp will be outputted. If it is not specified "timestamp" will be used. (eg. "time"),
 * output_timestamp_format": Optional parameter that defines the format in which the outputted timestamp will be. If it is not specified "iso8601" will be used. (eg. "unix_time"),
 * from: An optional parameter containing the date from which data will be obtained. If it is not specified all data is obtained. It should be in a SO8601 format (eg"2020-12-01T10:32:19.000"),
@@ -22,9 +22,7 @@ The configuration file should contain the following fileds:
 An example of configuration file can be seen in ..\config\APIClientConfiguration.json
 
 # Example:
-APIClientTest file contains an example of running the clinet and kafkaConsumer file contains the corresponding kafka consumer that reades messages from topic and prints them.
-
-In APIClientTest the obtain method is called every time_interval seconds where time interval contains the expected time between two samples in API.
+APIClientTest file contains an example of running the clinet in a loop and APIClientTest2 file contains an example of running obtain method manualy.
 
 TODO:
 * iso8601 to unix time conversion is done withou specifiing timezone. If needed that is to be fixed.

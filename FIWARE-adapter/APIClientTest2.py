@@ -9,4 +9,10 @@ from output import KafkaOutput
 
 client = NaiadesClient("config/client5981.json")
 
-client.obtain_periodically()
+# Some code...
+
+client.obtain()
+
+# Some code...
+
+client.obtain()
