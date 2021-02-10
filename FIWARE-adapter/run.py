@@ -4,6 +4,6 @@ import sys
 
 from download.downloadScheduler import DownloadScheduler
 
-scheduler = DownloadScheduler(configuration_path="config/downloadScheduler.json")
+scheduler = DownloadScheduler(configuration_path="downloadScheduler.json")
 
 scheduler.run()
