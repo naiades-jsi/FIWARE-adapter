@@ -147,8 +147,8 @@ class NaiadesClient():
 
         # If status code is not 200 raise an error
         if(r.status_code != requests.codes.ok):
-            # TODO maby not stop program because of that, just a warning
-            r.raise_for_status()
+            print("Data from {} could not be obtained. Error code: {}.".format(self.entity_id, r.status_code))
+            return
 
         # Retrieve attributest and timestamps from body of response
         body = r.json()
@@ -228,7 +228,7 @@ class NaiadesClient():
     def iso8601ToUnix(self, iso8601Time: str) -> float:
         # Transforms iso8601 time format to unix time
 
-        # TODO: if needed configure to right timezon
+        # TODO: if needed configure to right timezone
         parsed = iso8601.parse_date(iso8601Time)
         timetuple = parsed.timetuple()
         return time.mktime(timetuple)
