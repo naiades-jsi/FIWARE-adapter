@@ -4,7 +4,7 @@
     "port": "8668",
     "fiware_service": "braila",
     "entity_id": "urn:ngsi-ld:Device:Device-5773",
-    "seconds_between_samples": 10,
+    "seconds_between_samples": 2,
     "required_attributes": ["value"],
     "output_attributes_names": [["pressure"]],
     "output_timestampe_name": "time",

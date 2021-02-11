@@ -124,8 +124,15 @@ class NaiadesClient():
         # Initialize and configure outputs
         self.outputs = [eval(o) for o in conf["outputs"]]
         output_configurations = conf["output_configurations"]
+        #construct field names
+        field_names = [self.output_timestampe_name]
+        for a in self.output_attributes_names:
+            if(isinstance(a, list)):
+                field_names = field_names + a
+            else:
+                field_names.append(a)
         for o in range(len(self.outputs)):
-            output_configurations[o]["field_names"] = [self.output_timestampe_name] + list(chain.from_iterable(self.output_attributes_names))
+            output_configurations[o]["field_names"] = field_names
             self.outputs[o].configure(output_configurations[o])
 
     def obtain(self) -> None:
@@ -202,7 +209,14 @@ class NaiadesClient():
                     # added to the output_dict.
                     if(isinstance(output_attribute_name, list)):
                         if(not isinstance(attribute, list)):
-                            print("Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
+                            print("Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
+                            attribute = [None] * len(output_attribute_name)
+                        elif(len(attribute) < len(output_attribute_name)):
+                            print("Warrning: Obtained attribute {} is supposed to be of length {} but is not. None values will be added.".format(attribute, len(output_attribute_name)))
+                            while(len(attribute) < len(output_attribute_name)):
+                                attribute.append(None)
+                        elif(len(attribute) > len(output_attribute_name)):
+                            print("Warrning: Obtained attribute {} is supposed to be of shape {} but is not. None value will be used instead.".format(attribute, output_attribute_name))
                             attribute = [None] * len(output_attribute_name)
                         for name_idx in range(len(output_attribute_name)):
                             name = output_attribute_name[name_idx]
