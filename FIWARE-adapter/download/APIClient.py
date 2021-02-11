@@ -1,4 +1,6 @@
 from time import sleep
+from datetime import datetime
+from itertools import chain 
 import json
 import time
 import iso8601
@@ -6,10 +8,13 @@ import iso8601
 from typing import Any, Dict, List, Optional
 import requests
 
-from output import Output, KafkaOutput, TerminalOutput
+from output import Output, KafkaOutput, TerminalOutput, FileOutput
 
 
 class NaiadesClient():
+    verbose: int
+
+    # API Server
     ip: str
     port: str
     fiware_service: str
@@ -18,13 +23,20 @@ class NaiadesClient():
     output_attributes_names: List[str]
     output_timestampe_name: str
     output_timestamp_format: str
-    time_between_samples: float
     base_url: str
     headers: Dict[str, str]
+    
     last_timestamp: str
 
-    output: "Output"
-    output_configuration: Dict[Any, Any]
+    # TIMING
+    seconds_between_samples: int
+    second_in_minute: str
+    minute_in_hour: str
+    hour_in_day: str
+    period: int
+
+    outputs: List["Output"]
+    output_configurations: List[Dict[Any, Any]]
 
     def __init__(self, configurationPath: str = None) -> None:
         self.configuration(configurationPath=configurationPath)
@@ -34,31 +46,18 @@ class NaiadesClient():
         with open(configurationPath) as data_file:
             conf = json.load(data_file)
 
+        if("verbose" in conf):
+            self.verbose = conf["verbose"]
+        else:
+            self.verbose = 0
+
+        # API SERVER CONFIGURATION
         self.ip = conf["ip"]
         self.port = conf["port"]
         self.fiware_service = conf["fiware_service"]
         self.entity_id = conf["entity_id"]
-        self.time_between_samples = conf["time_between_samples"]
         self.required_attributes = conf["required_attributes"]
-        # If config file contains output_timestampe_name set it from there,
-        # otherwise set it to timestamp
-        if("output_timestampe_name" in conf):
-            self.output_timestampe_name = conf["output_timestampe_name"]
-        else:
-            self.output_timestampe_name = "timestamp"
-        # If config file contains output_timestamp_format set it from there,
-        # otherwise set it to iso8601
-        if("output_timestamp_format" in conf):
-            self.output_timestamp_format = conf["output_timestamp_format"]
-        else:
-            self.output_timestamp_format = "iso8601"
-        # If config file contains output_attributes_names set it from there,
-        # otherwise use required_attributes
-        if("output_attributes_names" in conf):
-            self.output_attributes_names = conf["output_attributes_names"]
-        else:
-            self.output_attributes_names = self.required_attributes
-
+        
         # Makes shure that some required attributes are specified
         assert len(self.required_attributes) > 0, "Required attributes must be specified"
 
@@ -84,14 +83,58 @@ class NaiadesClient():
         else:
             self.last_timestamp = None
 
-        # Configure output
-        self.output = eval(conf["output"])
-        self.output_configuration = conf["output_configuration"]
-        self.output.configure(self.output_configuration)
+        # TIMING CONFIGURATION
+        if("period" in conf):
+            self.period = conf["period"]
+        else:
+            self.period = None
+        self.seconds_between_samples = None
+        self.second_in_minute = None
+        self.minute_in_hour = None
+        self.hour_in_day = None
+        if("seconds_between_samples" in conf):
+            self.seconds_between_samples = conf["seconds_between_samples"]
+        elif("second_in_minute" in conf):
+            self.second_in_minute = conf["second_in_minute"]
+        elif("minute_in_hour" in conf):
+            self.minute_in_hour = conf["minute_in_hour"]
+        elif("hour_in_day" in conf):
+            self.hour_in_day = conf["hour_in_day"]
+
+        # OUTPUT CONFIGURATION
+        # If config file contains output_timestampe_name set it from there,
+        # otherwise set it to timestamp
+        if("output_timestampe_name" in conf):
+            self.output_timestampe_name = conf["output_timestampe_name"]
+        else:
+            self.output_timestampe_name = "timestamp"
+        # If config file contains output_timestamp_format set it from there,
+        # otherwise set it to iso8601
+        if("output_timestamp_format" in conf):
+            self.output_timestamp_format = conf["output_timestamp_format"]
+        else:
+            self.output_timestamp_format = "iso8601"
+        # If config file contains output_attributes_names set it from there,
+        # otherwise use required_attributes
+        if("output_attributes_names" in conf):
+            self.output_attributes_names = conf["output_attributes_names"]
+        else:
+            self.output_attributes_names = self.required_attributes
+
+        # Initialize and configure outputs
+        self.outputs = [eval(o) for o in conf["outputs"]]
+        output_configurations = conf["output_configurations"]
+        for o in range(len(self.outputs)):
+            output_configurations[o]["field_names"] = [self.output_timestampe_name] + list(chain.from_iterable(self.output_attributes_names))
+            self.outputs[o].configure(output_configurations[o])
 
     def obtain(self) -> None:
         # A method that obtains data (since last timestamp if specified)
         # from API
+
+        # Print message if required
+        if(self.verbose == 1):
+            print("{}: Obtaining {}.".format(datetime.now(), self.entity_id))
 
         # If last timestamp is not None add it to the url parameters
         if(self.last_timestamp is not None):
@@ -104,7 +147,8 @@ class NaiadesClient():
 
         # If status code is not 200 raise an error
         if(r.status_code != requests.codes.ok):
-            r.raise_for_status()
+            print("Data from {} could not be obtained. Error code: {}.".format(self.entity_id, r.status_code))
+            return
 
         # Retrieve attributest and timestamps from body of response
         body = r.json()
@@ -158,16 +202,18 @@ class NaiadesClient():
                     # added to the output_dict.
                     if(isinstance(output_attribute_name, list)):
                         if(not isinstance(attribute, list)):
-                            print("Incompatible output names specification.")
-                            exit(1)
+                            print("Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
+                            attribute = [None] * len(output_attribute_name)
                         for name_idx in range(len(output_attribute_name)):
                             name = output_attribute_name[name_idx]
                             output_dict[name] = attribute[name_idx]
 
                     else:
                         output_dict[output_attribute_name] = attribute
-                # Send out the dictionary with the output component
-                self.output.send_out(output_dict=output_dict)
+                
+                for o in self.outputs:
+                    # Send out the dictionary with the output component
+                    o.send_out(output_dict=output_dict)
 
             # Set last timestamp to the last sample's timestamp
             self.last_timestamp = timestamps[-1]
@@ -182,7 +228,7 @@ class NaiadesClient():
     def iso8601ToUnix(self, iso8601Time: str) -> float:
         # Transforms iso8601 time format to unix time
 
-        # TODO: if needed configure to right timezon
+        # TODO: if needed configure to right timezone
         parsed = iso8601.parse_date(iso8601Time)
         timetuple = parsed.timetuple()
         return time.mktime(timetuple)

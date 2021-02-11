@@ -1,14 +1,20 @@
 {
+    "verbose": 1,
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "braila",
     "entity_id": "urn:ngsi-ld:Device:Device-5981",
-    "time_between_samples": 60,
+    "seconds_between_samples": 10,
     "required_attributes": ["value"],
     "output_attributes_names": [["leak_state", "noise_dB", "spre_dB"]],
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
-    "from": "2020-12-13T10:32:19.000",
-    "output": "TerminalOutput()",
-    "output_configuration": {}
+    "outputs": ["FileOutput()"],
+    "output_configurations": 
+    [
+        {
+            "file_name": "braila5981.csv",
+            "mode": "w"
+        }
+    ]
 }
