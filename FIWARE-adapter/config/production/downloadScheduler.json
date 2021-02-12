@@ -1,0 +1,12 @@
+{
+    "clients": [
+        "production/brailaPressure5770.json",
+        "production/brailaPressure5771.json",
+        "production/brailaPressure5772.json",
+        "production/brailaPressure5773.json",
+        "production/brailaNoise2182.json",
+        "production/brailaNoise5980.json",
+        "production/brailaNoise5981.json",
+        "production/brailaNoise5982.json",
+        "production/brailaWeatherObserved.json"]
+}

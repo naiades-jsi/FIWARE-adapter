@@ -23,8 +23,8 @@ The configuration file should contain the following fileds:
 If NaiadesClient is ran with DownloadScheduler one of the following fields must also be provided:
 * seconds_between_samples: An integer representing the number of seconds between obtain calls,
 * second_in_minute: A string that specifies at which second of a minute the obtain will be periodically called. (example: ":00"),
-* minute_in_nour: A string that specifies at which minute of a hour the obtain function will be periodecally called (example: ":30"),
-* hour_in_day: A string that specifies at which hour of day the obtain function will be periodecally called (example: ":04").
+* minute_in_hour: A string that specifies at which minute of a hour the obtain function will be periodecally called (example: ":30"),
+* hour_in_day: A string that specifies at which hour of day the obtain function will be periodecally called (example: "04:00").
 If second_in_minute, minute_in_hour or hour_in_day is used an additional field can be specified:
 * period: An integer that limits execusion of obtain function so it is not executed every minute (or hour or day) but every period-th time.
 

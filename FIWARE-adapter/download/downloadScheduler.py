@@ -32,6 +32,7 @@ class DownloadScheduler():
         # Schedule obtain calls (see schedule module documentation)
         for client in self.clients:
             if(client.seconds_between_samples is not None):
+                # print("nope")
                 schedule.every(client.seconds_between_samples).seconds.do(client.obtain)
             elif(client.second_in_minute is not None):
                 if(client.period is not None):
@@ -39,11 +40,13 @@ class DownloadScheduler():
                 else:
                     schedule.every().minute.at(client.second_in_minute).do(client.obtain)
             elif(client.minute_in_hour is not None):
+                # print("minute")
                 if(client.period is not None):
                     schedule.every(client.period).hours.at(client.minute_in_hour).do(client.obtain)
                 else:
                     schedule.every().hour.at(client.minute_in_hour).do(client.obtain)
             elif(client.hour_in_day is not None):
+                # print(client.hour_in_day)
                 if(client.period is not None):
                     schedule.every(client.period).days.at(client.hour_in_day).do(client.obtain)
                 else:
