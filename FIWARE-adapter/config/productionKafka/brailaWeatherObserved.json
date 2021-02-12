@@ -1,0 +1,34 @@
+{
+    "verbose": 1,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "braila",
+    "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved",
+    "minute_in_hour": ":02",
+    "required_attributes": [
+        "atmosphericPressure",
+        "dewPoint",
+        "relativeHumidity",
+        "temperature",
+        "windDirection",
+        "windSpeed"
+        ],
+    "output_attributes_names": [
+        "pressure", 
+        "dewPoint",
+        "humidity",
+        "temperature",
+        "windBearing",
+        "windSpeed"
+        ],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": ["FileOutput()", "KafkaOutput()"],
+    "output_configurations": 
+    [
+        {
+            "file_name": "brailaWeatherObserved.csv",
+            "mode": "w"
+        }
+    ]
+}
