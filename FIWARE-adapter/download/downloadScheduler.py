@@ -46,7 +46,7 @@ class DownloadScheduler():
                 else:
                     schedule.every().hour.at(client.minute_in_hour).do(client.obtain)
             elif(client.hour_in_day is not None):
-                # print(client.hour_in_day)
+                #print(client.hour_in_day)
                 if(client.period is not None):
                     schedule.every(client.period).days.at(client.hour_in_day).do(client.obtain)
                 else:
