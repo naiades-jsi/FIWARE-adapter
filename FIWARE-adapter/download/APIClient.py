@@ -13,6 +13,8 @@ from output import Output, KafkaOutput, TerminalOutput, FileOutput
 
 class NaiadesClient():
     verbose: int
+    configuration_path: str
+    production_mode: bool
 
     # API Server
     ip: str
@@ -42,6 +44,8 @@ class NaiadesClient():
         self.configuration(configurationPath=configurationPath)
 
     def configuration(self, configurationPath: str = None) -> None:
+        self.configuration_path = configurationPath
+
         # Read config file
         with open(configurationPath) as data_file:
             conf = json.load(data_file)
@@ -50,6 +54,11 @@ class NaiadesClient():
             self.verbose = conf["verbose"]
         else:
             self.verbose = 0
+        
+        if("production_mode" in conf):
+            self.production_mode = conf["production_mode"]
+        else:
+            self.production_mode = False
 
         # API SERVER CONFIGURATION
         self.ip = conf["ip"]
@@ -231,6 +240,17 @@ class NaiadesClient():
 
             # Set last timestamp to the last sample's timestamp
             self.last_timestamp = timestamps[-1]
+
+            if(self.production_mode):
+                # Also change config file so if adapter crashes and reruns it
+                # continues from where it finished
+                with open(self.configuration_path) as data_file:
+                    conf = json.load(data_file)
+                    conf["from"] = self.last_timestamp
+            
+                # Write the content back
+                with open(self.configuration_path, "w") as f:
+                    json.dump(conf, f)
 
     def obtain_periodically(self) -> None:
         # A method that periodicly calls the obtain method every

@@ -9,6 +9,7 @@ A Client for NAIADES API that downloads data and puts them on Terminal, kafka to
 # Naiades Client:
 The NaiadesClient gets data of a specified entity from the NAIADES historic API from a specified date by calling obtain() method. If obtain is called multiple times on the same object only new data will be obtained. Downloaded data is then send foward with output component.
 The configuration file should contain the following fileds:
+* production_mode: A boolean variable marking if conponent will be used in production. It then saves last timestamp downloaded so it can continue from there on in case of crash and rerun.
 * ip: The IP address of the API. (eg. "5.53.108.182"),
 * port: The port of the API (eg. "8668"),
 * fiware_service: Fiware Service for the request (eg. "carouge"),

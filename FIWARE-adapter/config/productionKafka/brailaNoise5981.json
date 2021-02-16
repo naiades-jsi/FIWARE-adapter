@@ -1,5 +1,5 @@
 {
-    "verbose": 1,
+    "production_mode": true,
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "braila",
@@ -15,6 +15,10 @@
         {
             "file_name": "braila5981.csv",
             "mode": "w"
+        },
+        {
+            "topic": "measurements_node_5981",
+            "bootstrap_server": "localhost:9092"
         }
     ]
 }

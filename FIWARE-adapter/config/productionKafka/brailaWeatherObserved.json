@@ -1,5 +1,5 @@
 {
-    "verbose": 1,
+    "production_mode": true,
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "braila",
@@ -29,6 +29,10 @@
         {
             "file_name": "brailaWeatherObserved.csv",
             "mode": "w"
+        },
+        {
+            "topic": "measurements_node_WeatherObserved",
+            "bootstrap_server": "localhost:9092"
         }
     ]
 }
