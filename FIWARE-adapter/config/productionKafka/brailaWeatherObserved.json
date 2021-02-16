@@ -12,20 +12,22 @@
         "temperature",
         "windDirection",
         "windSpeed"
-        ],
+    ],
     "output_attributes_names": [
-        "pressure", 
+        "pressure",
         "dewPoint",
         "humidity",
         "temperature",
         "windBearing",
         "windSpeed"
-        ],
+    ],
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
-    "outputs": ["FileOutput()", "KafkaOutput()"],
-    "output_configurations": 
-    [
+    "outputs": [
+        "FileOutput()",
+        "KafkaOutput()"
+    ],
+    "output_configurations": [
         {
             "file_name": "brailaWeatherObserved.csv",
             "mode": "w"
