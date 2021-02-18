@@ -6,18 +6,18 @@
     "entity_id": "urn:ngsi-ld:Device:Device-5771",
     "hour_in_day": "04:02",
     "required_attributes": ["value"],
-    "output_attributes_names": [["pressure"]],
+    "output_attributes_names": [["value"]],
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
     "outputs": ["FileOutput()", "KafkaOutput()"],
     "output_configurations": 
     [
         {
-            "file_name": "braila5771.csv",
+            "file_name": "braila_pressure5771.csv",
             "mode": "w"
         },
         {
-            "topic": "measurements_node_5771",
+            "topic": "measurements_node_braila_pressure5771",
             "bootstrap_server": "localhost:9092"
         }
     ]

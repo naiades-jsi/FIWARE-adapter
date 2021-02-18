@@ -13,11 +13,11 @@
     "output_configurations": 
     [
         {
-            "file_name": "braila5982.csv",
+            "file_name": "braila_noise5982.csv",
             "mode": "w"
         },
         {
-            "topic": "measurements_node_5982",
+            "topic": "measurements_node_braila_noise5982",
             "bootstrap_server": "localhost:9092"
         }
     ]

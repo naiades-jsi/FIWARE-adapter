@@ -11,7 +11,9 @@
         "relativeHumidity",
         "temperature",
         "windDirection",
-        "windSpeed"
+        "windSpeed",
+        "illuminance",
+        "pressureTendency"
     ],
     "output_attributes_names": [
         "pressure",
@@ -19,7 +21,9 @@
         "humidity",
         "temperature",
         "windBearing",
-        "windSpeed"
+        "windSpeed",
+        "illuminance",
+        "pressureTendency"
     ],
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
@@ -29,11 +33,11 @@
     ],
     "output_configurations": [
         {
-            "file_name": "brailaWeatherObserved.csv",
+            "file_name": "braila_WeatherObserved.csv",
             "mode": "w"
         },
         {
-            "topic": "measurements_node_WeatherObserved",
+            "topic": "measurements_node_braila_weatherObserved",
             "bootstrap_server": "localhost:9092"
         }
     ]
