@@ -6,6 +6,8 @@ A Client for NAIADES API that downloads data and puts them on Terminal, kafka to
 * requests: 2.25.1
 * kafka-python: 2.0.2
 
+All requirements are also specified in requirements.txt file.
+
 # Naiades Client:
 The NaiadesClient gets data of a specified entity from the NAIADES historic API from a specified date by calling obtain() method. If obtain is called multiple times on the same object only new data will be obtained. Downloaded data is then send foward with output component.
 The configuration file should contain the following fileds:
@@ -52,6 +54,44 @@ Combines multiple clients (multiple entities) and executes obtain calls as speci
 Make shure that you have modules specified in requirements installed and execute:
 ```python run.py```
 The data will be downloaded in dump folder
+
+# Atena deployment:
+The adapter is deployed on Atena server using a client/server system supervisor.
+
+## FIWARE-adapter configuration files:
+The FIWARE-adapter is ran with configurations specified in config/productionKafka directory. There is a seperate configuration file for every downloaded entity. File downloadScheduler.json is a configuration file for scheduler and contains a list of all entitie's configuration files that are to be downloaded. 
+
+## Supervisor configuration file:
+The configuration file for supervisor is located in /etc/supervisor/conf.d/naiades-fiware-adapter.conf. Bellow is the content of the configuration file:
+```
+[program:naiades_fiware_adapter]
+command=/home/galp/enviroments/fiwareadapter/bin/python /mnt/data/services/naiades-fiware-adapter/FIWARE-adapter/main.py -c productionKafka/downloadScheduler.json
+directory=/mnt/data/services/naiades-fiware-adapter/FIWARE-adapter
+autostart=true
+autorestart=true
+stderr_logfile=/mnt/data/services/naiades-fiware-adapter/log/naiades-fiware-adapter.err.log
+stdout_logfile=/mnt/data/services/naiades-fiware-adapter/log/naiades-fiware-adapter.out.log
+```
+/home/galp/enviroments/fiwareadapter contains an enviroment with all installed requirements. <br>
+The actual Fiware adapter code is located in /mnt/data/services/naiades-fiware-adapter/FIWARE-adapter. <br>
+The directory must be set to /mnt/data/services/naiades-fiware-adapter/FIWARE-adapter so all imports work as they should and the dump directory is created in the correct location.
+
+## Supervisor commands:
+After changing supervisor configuration run:
+```sudo supervisorctl reread``` and <br>
+```sudo supervisorctl update```. <br>
+
+To start the service run:
+```sudo supervisorctl start naiades_fiware_adapter```. <br>
+
+To stop the service run:
+```sudo supervisorctl stop naiades_fiware_adapter```. <br>
+
+To check the status of the service run:
+```sudo supervisorctl status naiades_fiware_adapter```.<br>
+<br>
+
+If the service crashes it will automatically rerun and continue download from there.
 
 TODO:
 * iso8601 to unix time conversion is done withou specifiing timezone. If needed that is to be fixed.
