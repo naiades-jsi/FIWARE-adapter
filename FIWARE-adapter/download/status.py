@@ -162,7 +162,6 @@ def status(entity_id: str, service: str) -> Dict[str, Any]:
         # First sample was already included in the last batch
         sample_count += (len(timestamps)-1)
         last_date = timestamps[-1]
-        print(last_date)
 
     ret_dict["sample_count"] = sample_count
     ret_dict["last_date"] = timestamps[-1]
