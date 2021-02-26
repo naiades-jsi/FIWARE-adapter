@@ -3,7 +3,7 @@
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "alicante",
-    "entity_id": "urn:ngsi-ld:Device:Benalua-Flow",
+    "entity_id": "urn:ngsi-ld:Device:Benalua-Volume",
     "hour_in_day": "10:30",
     "required_attributes": ["value"],
     "output_attributes_names": ["value"],
@@ -13,11 +13,11 @@
     "output_configurations": 
     [
         {
-            "file_name": "alicante_Benalua_Flow.csv",
+            "file_name": "alicante_Benalua_Volume.csv",
             "mode": "w"
         },
         {
-            "topic": "measurements_node_alicante_benelua_flow",
+            "topic": "measurements_node_alicante_benalua_volume",
             "bootstrap_server": "localhost:9092"
         }
     ]
