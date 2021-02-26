@@ -3,8 +3,8 @@
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "braila",
-    "entity_id": "urn:ngsi-ld:Device:Device-2182",
-    "seconds_between_samples": 2,
+    "entity_id": "urn:ngsi-ld:Device:Device-5981",
+    "hour_in_day": "04:02",
     "required_attributes": ["value"],
     "output_attributes_names": [["leak_state", "noise_dB", "spre_dB"]],
     "output_timestampe_name": "time",
@@ -13,7 +13,7 @@
     "output_configurations": 
     [
         {
-            "file_name": "braila2182.csv",
+            "file_name": "braila5981.csv",
             "mode": "w"
         }
     ]

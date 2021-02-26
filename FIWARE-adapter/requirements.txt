@@ -1,0 +1,4 @@
+iso8601==0.1.14
+kafka-python==2.0.2
+requests==2.25.1
+schedule==1.0.0

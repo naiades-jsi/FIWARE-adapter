@@ -13,6 +13,8 @@ from output import Output, KafkaOutput, TerminalOutput, FileOutput
 
 class NaiadesClient():
     verbose: int
+    configuration_path: str
+    production_mode: bool
 
     # API Server
     ip: str
@@ -42,6 +44,8 @@ class NaiadesClient():
         self.configuration(configurationPath=configurationPath)
 
     def configuration(self, configurationPath: str = None) -> None:
+        self.configuration_path = configurationPath
+
         # Read config file
         with open(configurationPath) as data_file:
             conf = json.load(data_file)
@@ -50,6 +54,11 @@ class NaiadesClient():
             self.verbose = conf["verbose"]
         else:
             self.verbose = 0
+        
+        if("production_mode" in conf):
+            self.production_mode = conf["production_mode"]
+        else:
+            self.production_mode = False
 
         # API SERVER CONFIGURATION
         self.ip = conf["ip"]
@@ -124,8 +133,15 @@ class NaiadesClient():
         # Initialize and configure outputs
         self.outputs = [eval(o) for o in conf["outputs"]]
         output_configurations = conf["output_configurations"]
+        #construct field names
+        field_names = [self.output_timestampe_name]
+        for a in self.output_attributes_names:
+            if(isinstance(a, list)):
+                field_names = field_names + a
+            else:
+                field_names.append(a)
         for o in range(len(self.outputs)):
-            output_configurations[o]["field_names"] = [self.output_timestampe_name] + list(chain.from_iterable(self.output_attributes_names))
+            output_configurations[o]["field_names"] = field_names
             self.outputs[o].configure(output_configurations[o])
 
     def obtain(self) -> None:
@@ -202,7 +218,14 @@ class NaiadesClient():
                     # added to the output_dict.
                     if(isinstance(output_attribute_name, list)):
                         if(not isinstance(attribute, list)):
-                            print("Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
+                            print("Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
+                            attribute = [None] * len(output_attribute_name)
+                        elif(len(attribute) < len(output_attribute_name)):
+                            print("Warrning: Obtained attribute {} is supposed to be of length {} but is not. None values will be added.".format(attribute, len(output_attribute_name)))
+                            while(len(attribute) < len(output_attribute_name)):
+                                attribute.append(None)
+                        elif(len(attribute) > len(output_attribute_name)):
+                            print("Warrning: Obtained attribute {} is supposed to be of shape {} but is not. None value will be used instead.".format(attribute, output_attribute_name))
                             attribute = [None] * len(output_attribute_name)
                         for name_idx in range(len(output_attribute_name)):
                             name = output_attribute_name[name_idx]
@@ -217,6 +240,17 @@ class NaiadesClient():
 
             # Set last timestamp to the last sample's timestamp
             self.last_timestamp = timestamps[-1]
+
+            if(self.production_mode):
+                # Also change config file so if adapter crashes and reruns it
+                # continues from where it finished
+                with open(self.configuration_path) as data_file:
+                    conf = json.load(data_file)
+                    conf["from"] = self.last_timestamp
+            
+                # Write the content back
+                with open(self.configuration_path, "w") as f:
+                    json.dump(conf, f)
 
     def obtain_periodically(self) -> None:
         # A method that periodicly calls the obtain method every

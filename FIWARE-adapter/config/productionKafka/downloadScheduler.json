@@ -1,0 +1,12 @@
+{
+    "clients": [
+        "productionKafka/brailaPressure5770.json",
+        "productionKafka/brailaPressure5771.json",
+        "productionKafka/brailaPressure5772.json",
+        "productionKafka/brailaPressure5773.json",
+        "productionKafka/brailaNoise2182.json",
+        "productionKafka/brailaNoise5980.json",
+        "productionKafka/brailaNoise5981.json",
+        "productionKafka/brailaNoise5982.json",
+        "productionKafka/brailaWeatherObserved.json"]
+}
