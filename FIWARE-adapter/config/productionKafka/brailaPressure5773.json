@@ -4,7 +4,7 @@
     "port": "8668",
     "fiware_service": "braila",
     "entity_id": "urn:ngsi-ld:Device:Device-5773",
-    "hour_in_day": "04:02",
+    "hour_in_day": "05:20",
     "required_attributes": [
         "value"
     ],

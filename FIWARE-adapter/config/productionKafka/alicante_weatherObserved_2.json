@@ -1,11 +1,10 @@
 {
-    "verbose": 1,
     "production_mode": true,
     "ip": "5.53.108.182",
     "port": "8668",
-    "fiware_service": "braila",
-    "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved",
-    "minute_in_hour": ":02",
+    "fiware_service": "alicante",
+    "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved-2",
+    "minute_in_hour": ":05",
     "required_attributes": [
         "atmosphericPressure",
         "dewPoint",
@@ -36,11 +35,11 @@
     ],
     "output_configurations": [
         {
-            "file_name": "braila_WeatherObserved.csv",
+            "file_name": "alicante_WeatherObserved_2.csv",
             "mode": "w"
         },
         {
-            "topic": "measurements_node_braila_weatherObserved",
+            "topic": "measurements_node_alicante_weatherObserved_2",
             "bootstrap_server": "localhost:9092"
         }
     ]

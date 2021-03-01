@@ -14,6 +14,8 @@
         "productionKafka/alicante_montaneta_flow.json",
         "productionKafka/alicante_rambla_volume.json",
         "productionKafka/alicante_rambla_flow.json",
+        "productionKafka/alicante_weatherObserved_1.json",
+        "productionKafka/alicante_weatherObserved_2.json",
         "productionKafka/brailaPressure5770.json",
         "productionKafka/brailaPressure5771.json",
         "productionKafka/brailaPressure5772.json",
