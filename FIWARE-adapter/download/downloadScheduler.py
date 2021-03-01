@@ -55,6 +55,9 @@ class DownloadScheduler():
                 print("Client {} cant be scheduled.".format(client.entity_id))
 
     def run(self) -> None:
+        # When started run all jobs (download data till now)
+        schedule.run_all()
+
         while True:
             # run_pending obtain calls
             schedule.run_pending()

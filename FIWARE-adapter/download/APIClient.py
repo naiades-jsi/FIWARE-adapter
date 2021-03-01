@@ -172,6 +172,8 @@ class NaiadesClient():
         timestamps = body["index"]
 
         number_of_samples = len(timestamps)
+        # Required to see if request needs to be repeated
+        total_samples_obtained = len(timestamps)
 
         # if there is at least one sample
         if(number_of_samples > 0):
@@ -251,6 +253,11 @@ class NaiadesClient():
                 # Write the content back
                 with open(self.configuration_path, "w") as f:
                     json.dump(conf, f)
+
+            # API is limited to 10000 samples per respons, so if that count is
+            # reached one should probably repeat the call
+            if(total_samples_obtained == 10000):
+                self.obtain()
 
     def obtain_periodically(self) -> None:
         # A method that periodicly calls the obtain method every

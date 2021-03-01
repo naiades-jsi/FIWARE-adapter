@@ -1,5 +1,19 @@
 {
     "clients": [
+        "productionKafka/alicante_alipark_flow.json",
+        "productionKafka/alicante_alipark_volume.json",
+        "productionKafka/alicante_autobuses_volume.json",
+        "productionKafka/alicante_autobuses_flow.json",
+        "productionKafka/alicante_benelua_volume.json",
+        "productionKafka/alicante_benelua_flow.json",
+        "productionKafka/alicante_diputacion_volume.json",
+        "productionKafka/alicante_diputacion_flow.json",
+        "productionKafka/alicante_mercado_volume.json",
+        "productionKafka/alicante_mercado_flow.json",
+        "productionKafka/alicante_montaneta_volume.json",
+        "productionKafka/alicante_montaneta_flow.json",
+        "productionKafka/alicante_rambla_volume.json",
+        "productionKafka/alicante_rambla_flow.json",
         "productionKafka/brailaPressure5770.json",
         "productionKafka/brailaPressure5771.json",
         "productionKafka/brailaPressure5772.json",
@@ -8,5 +22,9 @@
         "productionKafka/brailaNoise5980.json",
         "productionKafka/brailaNoise5981.json",
         "productionKafka/brailaNoise5982.json",
+        "productionKafka/brailaFlow211106H360.json",
+        "productionKafka/brailaFlow211206H360.json",
+        "productionKafka/brailaFlow211306H360.json",
+        "productionKafka/brailaFlow318505H498.json",
         "productionKafka/brailaWeatherObserved.json"]
 }
