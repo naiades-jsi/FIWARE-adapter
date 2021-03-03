@@ -2,10 +2,14 @@
     <div class="col-sm-10">
         <div class="card shadow">
             <div class="card-header">
-                Glava
+                Entities overview
             </div>
             <div class="card-body">
-                Body
+                <div class="form-group">
+                    <select class="form-control" #customSelect (change)='onOptionsSelected(customSelect.value)'>
+                        <option value="{{i}}" *ngFor="let entity of entities; index as i">{{entity.entityId}} : {{entity.service}}</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
