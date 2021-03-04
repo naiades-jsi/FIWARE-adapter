@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 import { Entity } from '../models/entity';
+import { Observable } from 'rxjs';
+import { DataSummary } from '../models/dataSummary';
 
 @Injectable({
     providedIn: 'root'
@@ -10,47 +12,13 @@ import { Entity } from '../models/entity';
 
 export class EntitiesService {
     private apiUrl = environment.apiUrl;
-    private apiPort = environment.apiPort;
 
     constructor(private http: HttpClient){}
 
-    public getFirstEntity(entityId: string, service: string): Promise<Entity> {
-        const url = `http://${this.apiUrl}:${this.apiPort}/v2/entities/${entityId}?limit=1`;
-        const headers = new HttpHeaders({
-            'Fiware-ServicePath': '/',
-            'Fiware-Service': service,
-            'Content-Type': 'application/json'
-        });
+    public getFirstEntity(entityId: string, service: string): Promise<DataSummary> {
+        const url = `http://${this.apiUrl}/entitySummary?entityId=${entityId}&service=${service}`;
         const res = this.http
-                        .get(url, {headers})
-                        .toPromise()
-                        .catch(this.handleError);
-        return res;
-    }
-
-    public getLastEntity(entityId: string, service: string): Promise<Entity> {
-        const url = `http://${this.apiUrl}:${this.apiPort}/v2/entities/${entityId}?lastN=1`;
-        const headers = new HttpHeaders({
-            'Fiware-ServicePath': '/',
-            'Fiware-Service': service,
-            'Content-Type': 'application/json'
-        });
-        const res = this.http
-                        .get(url, {headers})
-                        .toPromise()
-                        .catch(this.handleError);
-        return res;
-    }
-
-    public getAllSamplesCount(entityId: string, service: string, attribute: string): Promise<Entity> {
-        const url = `http://${this.apiUrl}:${this.apiPort}/v2/entities/${entityId}?attrs=${attribute}&aggrMethod=count`;
-        const headers = new HttpHeaders({
-            'Fiware-ServicePath': '/',
-            'Fiware-Service': service,
-            'Content-Type': 'application/json'
-        });
-        const res = this.http
-                        .get(url, {headers})
+                        .get(url)
                         .toPromise()
                         .catch(this.handleError);
         return res;

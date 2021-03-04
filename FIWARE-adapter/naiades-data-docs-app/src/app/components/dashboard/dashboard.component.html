@@ -10,6 +10,20 @@
                         <option value="{{i}}" *ngFor="let entity of entities; index as i">{{entity.entityId}} : {{entity.service}}</option>
                     </select>
                 </div>
+                <div *ngIf="dataSummary.http_status != -1">
+                    <div class="row">
+                        <div class="col">
+                            <strong>Http response status:</strong> {{dataSummary.http_status}} <br>
+                            <strong>Date of the first sample in the database:</strong> {{dataSummary.first_date}} <br>
+                            <strong>Date of the last sample in the database:</strong> {{dataSummary.last_date}} <br>
+                            <strong>Number of samples in the database:</strong> {{dataSummary.sample_count}}
+                        </div>
+                        <div class="col">
+                            <strong>JSON response:</strong> <br>
+                            <pre id="jsonString"></pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

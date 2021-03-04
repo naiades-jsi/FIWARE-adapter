@@ -4,6 +4,10 @@
     margin-bottom: 20px !important;
 }
 
+#content-wrap {
+    padding-bottom:8rem;
+}
+
 .sidebar-brand-icon {
     float: left;
 }
@@ -24,7 +28,6 @@
 
 footer.sticky-footer {
     padding: 2rem 0;
-    flex-shrink: 0;
     width: 100%;
     position: absolute;
     bottom: 0;
