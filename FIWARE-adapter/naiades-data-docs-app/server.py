@@ -1,9 +1,13 @@
 from flask import Flask, request, json, jsonify, Response
 import requests
 
-companies = [{"id": 1, "name": "Company One"}, {"id": 2, "name": "Company Two"}]
-
 api = Flask(__name__)
+
+@api.route('/ping', methods=['GET'])
+def ping():
+    res = jsonify({'message':'Pong!'})
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 @api.route('/entitySummary', methods=['GET'])
 def getEntitySummary():

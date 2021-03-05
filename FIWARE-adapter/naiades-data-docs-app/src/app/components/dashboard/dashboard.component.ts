@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 
 import { Entity } from 'src/app/models/entity';
 import { entities } from '../../models/entities';
 import { DataSummary } from 'src/app/models/dataSummary';
 import { EntitiesService } from '../../services/entities.service';
+
+interface Source {
+    name: string;
+    status: boolean;
+}
 
 @Component({
     selector: 'app-dashboard',
@@ -12,8 +18,11 @@ import { EntitiesService } from '../../services/entities.service';
 })
 export class DashboardComponent implements OnInit {
     timer: any;
+    interval: any;
+    fiwareApi: Source;
+    pythonServer: Source;
     entities: Entity[] = [];
-    public dataSummary: DataSummary;
+    dataSummary: DataSummary;
 
     constructor(private entitiesService: EntitiesService) {
         this.dataSummary = {
@@ -23,16 +32,25 @@ export class DashboardComponent implements OnInit {
             last_date: '',
             sample_json: ''
         };
+
+        this.fiwareApi = {
+            name: 'Fiware API',
+            status: false
+        };
+
+        this.pythonServer = {
+            name: 'Python server',
+            status: false
+        };
     }
 
-    private async getDataSummary(index: number): Promise<void> {
-        const entity = this.entities[index];
+    private async getDataSummary(entity: Entity): Promise<void> {
         await this.entitiesService
                     .getFirstEntity(entity.entityId, entity.service)
                     .then((data) => {
                         this.dataSummary = data;
                         this.dataSummary.sample_json = JSON.stringify(this.dataSummary.sample_json);
-
+                        console.log(data);
                         this.timer = setInterval(() => {
                             if (document.getElementById('jsonString') != null) {
                                 this.syntaxHighlight(JSON.stringify(JSON.parse(data.sample_json), undefined, 4));
@@ -43,7 +61,6 @@ export class DashboardComponent implements OnInit {
 
     private syntaxHighlight(json: string): void {
         clearInterval(this.timer);
-        json = json.substring(1, json.length - 1);
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         const element = document.getElementById('jsonString');
         if (element){
@@ -66,12 +83,17 @@ export class DashboardComponent implements OnInit {
             );
         }
     }
-    public onOptionsSelected(idx: string): void {
-        this.getDataSummary(Number(idx));
+    public onOptionsSelected(selectedEntity: Entity): void {
+        if (selectedEntity !== undefined && this.fiwareApi.status && this.pythonServer.status){
+            this.getDataSummary(selectedEntity);
+        }
     }
 
     ngOnInit(): void {
         this.entities = entities;
-        this.getDataSummary(0);
+        this.interval = setInterval(() => {
+            this.fiwareApi.status = this.entitiesService.getFiwareApiStatus();
+            this.pythonServer.status = this.entitiesService.getServerStatus();
+        }, 5000);
     }
 }
