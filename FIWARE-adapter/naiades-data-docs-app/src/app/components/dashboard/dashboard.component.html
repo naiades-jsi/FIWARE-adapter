@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <!-- Status Kafka Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{pythonServer.name}}</div>
+                    </div>
+                    <div class="col-auto" *ngIf="pythonServer.status; then up else down">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{fiwareApi.name}}</div>
+                    </div>
+                    <div class="col-auto" *ngIf="fiwareApi.status; then up else down">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-10">
+        <div class="card shadow">
+            <div class="card-header">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Entities overview</div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <ng-select placeholder="Select device" (change)="onOptionsSelected($event)">
+                        <ng-option [value]="entity" *ngFor="let entity of entities; index as i">{{ entity.entityId }} : {{entity.service}}</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="dataSummary.http_status != -1">
+                    <div class="row">
+                        <div class="col">
+                            <strong>Http response status:</strong> {{dataSummary.http_status}} <br>
+                            <strong>Date of the first sample in the database:</strong> {{dataSummary.first_date}} <br>
+                            <strong>Date of the last sample in the database:</strong> {{dataSummary.last_date}} <br>
+                            <strong>Number of samples in the database:</strong> {{dataSummary.sample_count}}
+                        </div>
+                        <div class="col">
+                            <strong>JSON response:</strong> <br>
+                            <pre id="jsonString"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dynamic components for status -->
+<ng-template #up>
+    <img src="../../../assets/images/green_icon.ico" class="dot">UP
+</ng-template>
+<ng-template #down>
+    <img src="../../../assets/images/red_icon.ico" class="dot">DOWN
+</ng-template>
