@@ -2,6 +2,7 @@ from flask import Flask, request, json, jsonify, Response
 import requests
 
 api = Flask(__name__)
+baseUrl = 'http://5.53.108.182:8668/v2'
 
 @api.route('/ping', methods=['GET'])
 def ping():
@@ -9,14 +10,25 @@ def ping():
     res.headers.add('Access-Control-Allow-Origin', '*')
     return res
 
+@api.route('/pingApi', methods=['GET'])
+def pingApi():
+    r = requests.get(baseUrl + '/health')
+    res = None
+    if(r.status_code != requests.codes.ok):
+        res = jsonify({'status': 'Fail'})
+        res.headers.add('Access-Control-Allow-Origin', '*')
+        return res
+    else:
+        body = r.json()
+        if(body['status'] == 'pass'):
+            res = jsonify({'status': 'Pass'})
+        else:
+            res = jsonify({'status': 'Fail'})
+        res.headers.add('Access-Control-Allow-Origin', '*')
+        return res
+
 @api.route('/entitySummary', methods=['GET'])
 def getEntitySummary():
-    baseUrl = 'http://5.53.108.182:8668/v2/entities/'
-    headers = {
-        "Fiware-Service": request.args.get('service'),
-        "Fiware-ServicePath": "/",
-        "Content-Type": "application/json"
-    }
     dict_ = {
         'http_status': None,
         'first_date': None,
@@ -25,7 +37,13 @@ def getEntitySummary():
         'sample_json': None
     }
 
-    r = requests.get(baseUrl + request.args.get('entityId') + '?limit=1', headers=headers)
+    headers = {
+        "Fiware-Service": request.args.get('service'),
+        "Fiware-ServicePath": "/",
+        "Content-Type": "application/json"
+    }
+
+    r = requests.get(baseUrl + "/entities/" + request.args.get('entityId') + '?limit=1', headers=headers)
     if(r.status_code != requests.codes.ok):
         dict_['http_status'] = r.status_code
         dict_['sample_json'] = r.json()

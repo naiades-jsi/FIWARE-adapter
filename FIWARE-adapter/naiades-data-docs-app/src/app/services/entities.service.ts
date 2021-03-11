@@ -12,7 +12,6 @@ import { first } from 'rxjs/operators';
 
 export class EntitiesService {
     private serverApiUrl = environment.apiUrl;
-    private fiwareApiUrl = environment.fiwareApiUrl;
     private source = interval(5000);
     private pythonServerStatus = false;
     private fiwareApiStatus = false;
@@ -29,16 +28,20 @@ export class EntitiesService {
                         this.pythonServerStatus = false;
                     }
                 }, err => this.pythonServerStatus = false);
-            // this.http
-            //     .get(`http://${this.fiwareApiUrl}/v2/health`, { observe: 'response' })
-            //     .pipe(first())
-            //     .subscribe(resp => {
-            //         if (resp.status === 200){
-            //             this.fiwareApiStatus = true;
-            //         } else {
-            //             this.fiwareApiStatus = false;
-            //         }
-            //     }, err => this.fiwareApiStatus = false);
+            this.http
+                .get(`http://${this.serverApiUrl}/pingApi`, { observe: 'response' })
+                .pipe(first())
+                .subscribe(resp => {
+                    if (resp.status === 200){
+                        if (JSON.parse(JSON.stringify(resp.body)).status === 'Pass'){
+                            this.fiwareApiStatus = true;
+                        } else {
+                            this.fiwareApiStatus = false;
+                        }
+                    } else {
+                        this.fiwareApiStatus = false;
+                    }
+                }, err => this.fiwareApiStatus = false);
         });
     }
 
