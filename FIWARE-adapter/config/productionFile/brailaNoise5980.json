@@ -1,0 +1,29 @@
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "braila",
+    "entity_id": "urn:ngsi-ld:Device:Device-5980",
+    "hour_in_day": "11:05",
+    "required_attributes": [
+        "value"
+    ],
+    "output_attributes_names": [
+        [
+            "leak_state",
+            "noise_dB",
+            "spre_dB"
+        ]
+    ],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "braila_noise5980.csv",
+            "mode": "w"
+        }
+    ]
+}

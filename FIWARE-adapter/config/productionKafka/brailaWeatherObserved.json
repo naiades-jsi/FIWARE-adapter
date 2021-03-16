@@ -1,5 +1,4 @@
 {
-    "verbose": 1,
     "production_mode": true,
     "ip": "5.53.108.182",
     "port": "8668",

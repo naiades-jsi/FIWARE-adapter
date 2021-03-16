@@ -1,6 +1,6 @@
 {
     "clients": [
-        "productionKafka/alicante_saline_EA003-36_conductivity.json",
+        "productionKafka/alicante_salinity_EA003-36_conductivity.json",
         "productionKafka/alicante_salinity_EA001-36_level.json",
         "productionKafka/alicante_alipark_flow.json",
         "productionKafka/alicante_alipark_volume.json",

@@ -1,0 +1,41 @@
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "alicante",
+    "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved-2",
+    "minute_in_hour": ":05",
+    "required_attributes": [
+        "atmosphericPressure",
+        "dewPoint",
+        "precipitation",
+        "relativeHumidity",
+        "temperature",
+        "windDirection",
+        "windSpeed",
+        "illuminance",
+        "pressureTendency"
+    ],
+    "output_attributes_names": [
+        "pressure",
+        "dewPoint",
+        "precipitation",
+        "humidity",
+        "temperature",
+        "windBearing",
+        "windSpeed",
+        "illuminance",
+        "pressureTendency"
+    ],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "alicante_WeatherObserved_2.csv",
+            "mode": "w"
+        }
+    ]
+}
