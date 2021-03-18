@@ -34,7 +34,9 @@ If second_in_minute, minute_in_hour or hour_in_day is used an additional field c
 An example of configuration file can be seen in ..\config\brailaNoise2182.json
 
 # Output:
-A component that sends foward downloaded data.
+A component that sends foward downloaded data. The following configuration fields are general for all outputs: 
+* from_hour: A hour of day in datetime format used to filter samples in combination with to_hour (only sends out samples with timestamps during these hours). (eg. datetime.time(23, 0, 0) -> after 11pm)
+* to_hour: A hour of day in datetime format used to filter samples in combination with from_hour (only sends out samples with timestamps during these hours). (eg. datetime.time(2, 0, 0) -> before 2am)
 
 1. **Terminal output:** Prints data in terminal.
 

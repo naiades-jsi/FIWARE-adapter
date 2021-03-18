@@ -253,7 +253,8 @@ class NaiadesClient():
                 
                 for o in self.outputs:
                     # Send out the dictionary with the output component
-                    o.send_out(output_dict=output_dict)
+                    o.send_out(output_dict=output_dict,
+                               datetime_timestamp=self.iso8601ToDatetime(timestamps[sample]))
 
             # Set last timestamp to the last sample's timestamp
             self.last_timestamp = timestamps[-1]
@@ -288,3 +289,6 @@ class NaiadesClient():
         parsed = iso8601.parse_date(iso8601Time)
         timetuple = parsed.timetuple()
         return time.mktime(timetuple)
+
+    def iso8601ToDatetime(self, iso8601Time: str) -> Any:
+        return iso8601.parse_date(iso8601Time)

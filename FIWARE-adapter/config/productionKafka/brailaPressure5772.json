@@ -17,6 +17,7 @@
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()",
+        "KafkaOutput()",
         "KafkaOutput()"
     ],
     "output_configurations": [
@@ -27,6 +28,12 @@
         {
             "topic": "measurements_node_braila_pressure5772",
             "bootstrap_server": "localhost:9092"
+        },
+        {
+            "topic": "measurements_node_braila_pressure5772_night",
+            "bootstrap_server": "localhost:9092",
+            "from_hour": "datetime.time(23, 0, 0)",
+            "to_hour": "datetime.time(1, 0, 0)"
         }
     ]
 }

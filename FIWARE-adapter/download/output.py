@@ -3,19 +3,42 @@ from typing import Any, Dict, List
 import json
 import csv
 import os
+import datetime
 
 from kafka import KafkaProducer
 
 
 class Output(ABC):
+    from_hour: Any
+    to_hour: Any
+    field_names: List[str]
+
     @abstractmethod
     def configure(self, conf: Dict[Any, Any]) -> None:
-        pass
+        # Filed names
+        self.field_names = conf["field_names"]
+
+        # Filtering to hours in day
+        if("from_hour" in conf and "to_hour" in conf):
+            self.from_hour = eval(conf["from_hour"])
+            self.to_hour = eval(conf["to_hour"])
+        else:
+            self.from_hour = None
+            self.to_hour = None
 
     @abstractmethod
-    def send_out(self, output_dict: Dict[str, Any]) -> None:
+    def send_out(self, output_dict: Dict[str, Any],
+                 datetime_timestamp: Any) -> None:
         pass
 
+    def time_in_range(self, x: Any) -> bool:
+        # Return true if x (in datetime.datetime fomat) is in the range [start, end]
+        x = x.time()
+
+        if self.from_hour <= self.to_hour:
+            return self.from_hour <= x <= self.to_hour
+        else:
+            return self.from_hour <= x or x <= self.to_hour
 
 class KafkaOutput(Output):
     # An output class that outputs a dictionary to a kafka topic
@@ -34,26 +57,33 @@ class KafkaOutput(Output):
                                       value_serializer=lambda x:
                                       json.dumps(x).encode('utf-8'))
 
-    def send_out(self, output_dict: Dict[str, Any]) -> None:
-        # A method that sends (a dictionary) out a message to the topic
-        self.producer.send(self.topic, value=output_dict)
+        super().configure(conf=conf)
+
+    def send_out(self, output_dict: Dict[str, Any],
+                 datetime_timestamp: Any) -> None:
+        # Execute the send out if time is in range (if that is required)
+        if(self.from_hour is None or self.to_hour is None or self.time_in_range(datetime_timestamp)):
+            # A method that sends (a dictionary) out a message to the topic
+            self.producer.send(self.topic, value=output_dict)
 
 
 class TerminalOutput(Output):
     # An output class that outputs a dictionary to the terminal
 
     def configure(self, conf: Dict[Any, Any]) -> None:
-        pass
+        super().configure(conf=conf)
 
-    def send_out(self, output_dict: Dict[str, Any]) -> None:
-        print(output_dict)
+    def send_out(self, output_dict: Dict[str, Any],
+                 datetime_timestamp: Any) -> None:
+        # Execute the send out if time is in range (if that is required)
+        if(self.from_hour is None or self.to_hour is None or self.time_in_range(datetime_timestamp)):
+            print(output_dict)
 
 
 class FileOutput(Output):
     file_name: str
     file_path: str
     mode: str
-    field_names: List[str]
 
     def __init__(self, conf: Dict[Any, Any] = None) -> None:
         super().__init__()
@@ -61,9 +91,9 @@ class FileOutput(Output):
             self.configure(conf=conf)
 
     def configure(self, conf: Dict[Any, Any] = None) -> None:
+        super().configure(conf=conf)
         self.file_name = conf["file_name"]
         self.mode = conf["mode"]
-        self.field_names = conf["field_names"]
         self.file_path = "dump/" + self.file_name
 
         # make log folder if one does not exist
@@ -85,13 +115,16 @@ class FileOutput(Output):
                                             fieldnames=self.field_names)
                     writer.writeheader()
 
-    def send_out(self, output_dict: Dict[str, Any]) -> None:
-        if(self.file_name[-4:] == "json"):
-            self.write_JSON(output_dict=output_dict)
-        elif(self.file_name[-3:] == "csv"):
-            self.write_csv(output_dict=output_dict)
-        else:
-            print("Output file type not supported.")
+    def send_out(self, output_dict: Dict[str, Any],
+                 datetime_timestamp: Any) -> None:
+        # Execute the send out if time is in range (if that is required)
+        if(self.from_hour is None or self.to_hour is None or self.time_in_range(datetime_timestamp)):
+            if(self.file_name[-4:] == "json"):
+                self.write_JSON(output_dict=output_dict)
+            elif(self.file_name[-3:] == "csv"):
+                self.write_csv(output_dict=output_dict)
+            else:
+                print("Output file type not supported.")
 
     def write_JSON(self, output_dict: Dict[str, Any]) -> None:
         # Read content of file and add output_dict
