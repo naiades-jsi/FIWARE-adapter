@@ -9,7 +9,7 @@ consumer = KafkaConsumer(
      value_deserializer=lambda x: loads(x.decode('utf-8')))
 
 #assign topic to read from
-tp = TopicPartition('measurements_node_braila_weatherObserved', 0)
+tp = TopicPartition('measurements_node_braila_pressure5770_night', 0)
 consumer.assign([tp])
 
 consumer.seek_to_end(tp)
