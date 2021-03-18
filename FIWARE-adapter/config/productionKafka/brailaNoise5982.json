@@ -11,8 +11,8 @@
     "output_attributes_names": [
         [
             "leak_state",
-            "noise_dB",
-            "spre_dB"
+            "noise_db",
+            "spre_db"
         ]
     ],
     "output_timestampe_name": "time",

@@ -231,9 +231,24 @@ class NaiadesClient():
                             attribute = [None] * len(output_attribute_name)
                         for name_idx in range(len(output_attribute_name)):
                             name = output_attribute_name[name_idx]
-                            output_dict[name] = attribute[name_idx]
+                            attribute_value = attribute[name_idx]
+                            
+                            # If attribute_value is string try to convert it
+                            if(isinstance(attribute_value, str)):
+                                try:
+                                    attribute_value = float(attribute_value)
+                                except ValueError:
+                                    pass
+
+                            output_dict[name] = attribute_value
 
                     else:
+                        # If attribute_value is string try to convert it
+                        if(isinstance(attribute, str)):
+                            try:
+                                attribute = float(attribute)
+                            except ValueError:
+                                pass
                         output_dict[output_attribute_name] = attribute
                 
                 for o in self.outputs:
