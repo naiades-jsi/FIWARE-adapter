@@ -20,16 +20,23 @@
     ],
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
-    "outputs": ["FileOutput()", "KafkaOutput()"],
+    "outputs": ["FileOutput()", "KafkaOutput()", "KafkaOutput()"],
     "output_configurations": 
     [
         {
             "file_name": "braila_flow211206H360.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_braila_flow211206H360",
             "bootstrap_server": "localhost:9092"
+        },
+        {
+            "topic": "measurements_node_braila_flow211206H360_night",
+            "bootstrap_server": "localhost:9092",
+            "from_hour": "datetime.time(23, 0, 0)",
+            "to_hour": "datetime.time(1, 0, 0)"
         }
-    ]
+    ],
+    "from": "2021-03-19T06:02:00.000"
 }

@@ -14,11 +14,12 @@
     [
         {
             "file_name": "alicante_Diputacion_Volume.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_alicante_diputacion_volume",
             "bootstrap_server": "localhost:9092"
         }
-    ]
+    ],
+    "from": "2021-03-17T22:30:00.000"
 }

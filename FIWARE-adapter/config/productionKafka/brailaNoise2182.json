@@ -24,11 +24,12 @@
     "output_configurations": [
         {
             "file_name": "braila_noise2182.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_braila_noise2182",
             "bootstrap_server": "localhost:9092"
         }
-    ]
+    ],
+    "from": "2021-03-18T12:00:00.000"
 }
