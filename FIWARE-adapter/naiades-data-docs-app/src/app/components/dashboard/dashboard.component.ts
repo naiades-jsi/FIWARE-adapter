@@ -94,6 +94,6 @@ export class DashboardComponent implements OnInit {
         this.interval = setInterval(() => {
             this.fiwareApi.status = this.entitiesService.getFiwareApiStatus();
             this.pythonServer.status = this.entitiesService.getServerStatus();
-        }, 5000);
+        }, 10000);
     }
 }
