@@ -19,13 +19,12 @@
     ],
     "output_configurations": [
         {
-            "file_name": "alicante_salinity_EA001-36_level.csv",
-            "mode": "a"
+            "file_name": "alicante_salinity_EA001_36_level.csv",
+            "mode": "w"
         },
         {
-            "topic": "measurements_node_alicante_salinity_EA001-36_level",
+            "topic": "measurements_node_alicante_salinity_EA001_36_level",
             "bootstrap_server": "localhost:9092"
         }
-    ],
-    "from": "2021-03-17T22:59:10.000"
+    ]
 }

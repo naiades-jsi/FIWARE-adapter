@@ -12,13 +12,12 @@
     "outputs": ["FileOutput()", "KafkaOutput()"],
     "output_configurations": [
         {
-            "file_name": "alicante_salinity_EA003-36_conductivity.csv",
-            "mode": "a"
+            "file_name": "alicante_salinity_EA003_36_conductivity.csv",
+            "mode": "w"
         },
         {
-            "topic": "measurements_node_alicante_salinity_EA003-36_conductivity",
+            "topic": "measurements_node_alicante_salinity_EA003_36_conductivity",
             "bootstrap_server": "localhost:9092"
         }
-    ],
-    "from": "2021-03-17T22:55:24.000"
+    ]
 }
