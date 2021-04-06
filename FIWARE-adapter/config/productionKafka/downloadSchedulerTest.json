@@ -1,0 +1,6 @@
+{
+    "clients": [
+        "productionKafka/brailaWeatherObserved.json",
+        "productionKafka/brailaPressure5770.json"
+    ]
+}

@@ -4,7 +4,7 @@
     "port": "8668",
     "fiware_service": "braila",
     "entity_id": "urn:ngsi-ld:Device:Device-5771",
-    "hour_in_day": "04:02",
+    "hour_in_day": "06:20",
     "required_attributes": [
         "value"
     ],
@@ -17,16 +17,24 @@
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()",
+        "KafkaOutput()",
         "KafkaOutput()"
     ],
     "output_configurations": [
         {
             "file_name": "braila_pressure5771.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_braila_pressure5771",
             "bootstrap_server": "localhost:9092"
+        },
+        {
+            "topic": "measurements_node_braila_pressure5771_night",
+            "bootstrap_server": "localhost:9092",
+            "from_hour": "datetime.time(23, 0, 0)",
+            "to_hour": "datetime.time(1, 0, 0)"
         }
-    ]
+    ],
+    "from": "2021-03-18T23:45:00.000"
 }

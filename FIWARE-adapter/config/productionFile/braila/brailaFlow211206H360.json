@@ -1,0 +1,34 @@
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "braila",
+    "entity_id": "urn:ngsi-ld:Device:Device-211206H360",
+    "minute_in_hour": ":05",
+    "required_attributes": [
+        "value"
+    ],
+    "output_attributes_names": [
+        [
+            "flow_rate_value",
+            "totalizer1",
+            "totalizer2",
+            "consumer_totalizer",
+            "analog_input1",
+            "analog_input2",
+            "batery_capacity",
+            "alarms_in_decimal"
+        ]
+    ],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "braila_flow211206H360.csv",
+            "mode": "w"
+        }
+    ]
+}

@@ -3,7 +3,7 @@
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "alicante",
-    "entity_id": "urn:ngsi-ld:Device:Mercado-Flow",
+    "entity_id": "urn:ngsi-ld:Device:Rambla-Flow",
     "hour_in_day": "10:30",
     "required_attributes": [
         "value"
@@ -14,17 +14,12 @@
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
     "outputs": [
-        "FileOutput()",
-        "KafkaOutput()"
+        "FileOutput()"
     ],
     "output_configurations": [
         {
-            "file_name": "alicante_Mercado_Flow.csv",
+            "file_name": "alicante_Rambla_Flow.csv",
             "mode": "w"
-        },
-        {
-            "topic": "measurements_node_alicante_mercado_flow",
-            "bootstrap_server": "localhost:9092"
         }
     ]
 }

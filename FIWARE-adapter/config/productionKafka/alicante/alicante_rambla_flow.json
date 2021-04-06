@@ -3,7 +3,7 @@
     "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "alicante",
-    "entity_id": "urn:ngsi-ld:Device:Montaneta-Flow",
+    "entity_id": "urn:ngsi-ld:Device:Rambla-Flow",
     "hour_in_day": "10:30",
     "required_attributes": ["value"],
     "output_attributes_names": ["value"],
@@ -13,12 +13,13 @@
     "output_configurations": 
     [
         {
-            "file_name": "alicante_Montaneta_Flow.csv",
-            "mode": "w"
+            "file_name": "alicante_Rambla_Flow.csv",
+            "mode": "a"
         },
         {
-            "topic": "measurements_node_alicante_montaneta_flow",
+            "topic": "measurements_node_alicante_rambla_flow",
             "bootstrap_server": "localhost:9092"
         }
-    ]
+    ],
+    "from": "2021-03-17T22:59:16.000"
 }

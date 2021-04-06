@@ -1,0 +1,25 @@
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "alicante",
+    "entity_id": "urn:ngsi-ld:Device:Montaneta-Flow",
+    "hour_in_day": "10:30",
+    "required_attributes": [
+        "value"
+    ],
+    "output_attributes_names": [
+        "value"
+    ],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "alicante_Montaneta_Flow.csv",
+            "mode": "w"
+        }
+    ]
+}

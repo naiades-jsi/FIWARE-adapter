@@ -1,5 +1,4 @@
 {
-    "verbose": 1,
     "production_mode": true,
     "ip": "5.53.108.182",
     "port": "8668",
@@ -9,6 +8,7 @@
     "required_attributes": [
         "atmosphericPressure",
         "dewPoint",
+        "precipitation",
         "relativeHumidity",
         "temperature",
         "windDirection",
@@ -18,15 +18,16 @@
     ],
     "output_attributes_names": [
         "pressure",
-        "dewPoint",
+        "dew_point",
+        "precipitation",
         "humidity",
         "temperature",
-        "windBearing",
-        "windSpeed",
+        "wind_bearing",
+        "wind_speed",
         "illuminance",
-        "pressureTendency"
+        "pressure_tendency"
     ],
-    "output_timestampe_name": "time",
+    "output_timestampe_name": "stampm",
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()",
@@ -35,11 +36,12 @@
     "output_configurations": [
         {
             "file_name": "braila_WeatherObserved.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_braila_weatherObserved",
             "bootstrap_server": "localhost:9092"
         }
-    ]
+    ],
+    "from": "2021-03-17T13:10:00.000"
 }
