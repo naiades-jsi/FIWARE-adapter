@@ -6,11 +6,7 @@
     "entity_id": "urn:ngsi-ld:Device:Device-1f02",
     "hour_in_day": "09:00",
     "required_attributes": ["value"],
-    "output_attributes_names": [
-        [
-            "soil_moisture"
-        ]
-    ],
+    "output_attributes_names": ["value"],
     "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
     "outputs": ["FileOutput()", "KafkaOutput()"],
