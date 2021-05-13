@@ -1,0 +1,28 @@
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "carouge",
+    "entity_id": "urn:ngsi-ld:Device:Device-0a80",
+    "hour_in_day": "09:00",
+    "required_attributes": ["value"],
+    "output_attributes_names": [
+        [
+            "soil_moisture"
+        ]
+    ],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": ["FileOutput()", "KafkaOutput()"],
+    "output_configurations": 
+    [
+        {
+            "file_name": "carouge_device_0a80.csv",
+            "mode": "w"
+        },
+        {
+            "topic": "measurements_node_carouge_device_0a80",
+            "bootstrap_server": "localhost:9092"
+        }
+    ]
+}
