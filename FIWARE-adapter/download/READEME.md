@@ -52,10 +52,8 @@ A component that sends foward downloaded data. The following configuration field
 Combines multiple clients (multiple entities) and executes obtain calls as specified for each client. The configuration file contains the following field:
 * clients: A list of configuration file names for individial clients 
 
-# Obtaining current Braila Data:
-Make shure that you have modules specified in requirements installed and execute:
-```python run.py```
-The data will be downloaded in dump folder
+# Pinging watchdog:
+If -w flag is used when the component is run a ping is sent to watchdog every 30 seconds.
 
 # Atena deployment:
 The adapter is deployed on Atena server using a client/server system supervisor.
@@ -67,7 +65,7 @@ The FIWARE-adapter is ran with configurations specified in config/productionKafk
 The configuration file for supervisor is located in /etc/supervisor/conf.d/naiades-fiware-adapter.conf. Bellow is the content of the configuration file:
 ```
 [program:naiades_fiware_adapter]
-command=/home/galp/enviroments/fiwareadapter/bin/python /mnt/data/services/naiades-fiware-adapter/FIWARE-adapter/main.py -c productionKafka/downloadScheduler.json
+command=/home/galp/enviroments/fiwareadapter/bin/python /mnt/data/services/naiades-fiware-adapter/FIWARE-adapter/main.py -c productionKafka/downloadScheduler.json -w
 directory=/mnt/data/services/naiades-fiware-adapter/FIWARE-adapter
 autostart=true
 autorestart=true
