@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.write_api import SYNCHRONOUS, ASYNCHRONOUS
 import json
 import csv
 import os
@@ -141,3 +143,54 @@ class FileOutput(Output):
         with open(self.file_path, 'a', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=self.field_names)
             writer.writerow(output_dict)
+
+
+class InfluxOutput(Output):
+    ip: str
+    port: str
+    token: str
+    org: str
+    bucket: str
+    measurement: str
+    tags: Dict
+    output_timestamp_name: str
+
+    influx_writer: Any
+
+    def __init__(self, conf: Dict[Any, Any] = None) -> None:
+        super().__init__()
+        if(conf is not None):
+            self.configure(conf=conf)
+
+    def configure(self, conf: Dict[Any, Any] = None) -> None:
+        super().configure(conf=conf)
+
+        # Configura writer
+        self.ip = conf["ip"]
+        self.port = conf["port"]
+        self.token = conf["token"]
+        self.org = conf["org"]
+        url = "http://" + self.ip + ":" + self.port
+
+        self.influx_writer = InfluxDBClient(url=url, token=self.token,
+                                            org=self.org).write_api(write_options=ASYNCHRONOUS)
+
+        self.bucket = conf["bucket"]
+        self.measurement = conf["measurement"]
+        self.tags = eval(conf["tags"])
+        self.output_timestamp_name = conf["output_timestamp_name"]
+
+
+    def send_out(self, output_dict: Dict[str, Any],
+                 datetime_timestamp: Any) -> None:
+        # Remove timestamp from output dictionary
+        # NOTE: timestamp MUST be in nanoseconds
+        timestamp = int(output_dict[self.output_timestamp_name]*1000000000)
+        only_values = output_dict
+        del only_values[self.output_timestamp_name]
+
+        # Write to database
+        self.influx_writer.write(self.bucket, self.org,
+                                 [{"measurement": self.measurement,
+                                   "tags": self.tags, "fields": only_values,
+                                   "time": timestamp}])

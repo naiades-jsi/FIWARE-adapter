@@ -8,7 +8,7 @@ import iso8601
 from typing import Any, Dict, List, Optional
 import requests
 
-from output import Output, KafkaOutput, TerminalOutput, FileOutput
+from output import Output, KafkaOutput, TerminalOutput, FileOutput, InfluxOutput
 
 
 class NaiadesClient():
@@ -23,7 +23,7 @@ class NaiadesClient():
     entity_id: str
     required_attributes: List[str]
     output_attributes_names: List[str]
-    output_timestampe_name: str
+    output_timestamp_name: str
     output_timestamp_format: str
     base_url: str
     headers: Dict[str, str]
@@ -111,12 +111,12 @@ class NaiadesClient():
             self.hour_in_day = conf["hour_in_day"]
 
         # OUTPUT CONFIGURATION
-        # If config file contains output_timestampe_name set it from there,
+        # If config file contains output_timestamp_name set it from there,
         # otherwise set it to timestamp
-        if("output_timestampe_name" in conf):
-            self.output_timestampe_name = conf["output_timestampe_name"]
+        if("output_timestamp_name" in conf):
+            self.output_timestamp_name = conf["output_timestamp_name"]
         else:
-            self.output_timestampe_name = "timestamp"
+            self.output_timestamp_name = "timestamp"
         # If config file contains output_timestamp_format set it from there,
         # otherwise set it to iso8601
         if("output_timestamp_format" in conf):
@@ -134,7 +134,7 @@ class NaiadesClient():
         self.outputs = [eval(o) for o in conf["outputs"]]
         output_configurations = conf["output_configurations"]
         #construct field names
-        field_names = [self.output_timestampe_name]
+        field_names = [self.output_timestamp_name]
         for a in self.output_attributes_names:
             if(isinstance(a, list)):
                 field_names = field_names + a
@@ -142,6 +142,8 @@ class NaiadesClient():
                 field_names.append(a)
         for o in range(len(self.outputs)):
             output_configurations[o]["field_names"] = field_names
+            # Add output_timestamp_name to output's configuration (for influx output)
+            output_configurations[o]["output_timestamp_name"] = self.output_timestamp_name
             self.outputs[o].configure(output_configurations[o])
 
     def obtain(self) -> None:
@@ -211,7 +213,7 @@ class NaiadesClient():
 
                 # Loops over required attributes and adds them to the
                 # output_dict
-                output_dict = {self.output_timestampe_name: t}
+                output_dict = {self.output_timestamp_name: t}
                 for i in range(len(self.required_attributes)):
                     output_attribute_name = self.output_attributes_names[i]
                     attribute = attributers_dict[self.required_attributes[i]][sample]
