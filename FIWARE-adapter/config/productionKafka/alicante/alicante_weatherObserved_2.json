@@ -1,1 +1,47 @@
-{"production_mode": true, "ip": "5.53.108.182", "port": "8668", "fiware_service": "alicante", "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved-2", "minute_in_hour": ":05", "required_attributes": ["atmosphericPressure", "dewPoint", "precipitation", "relativeHumidity", "temperature", "windDirection", "windSpeed", "illuminance", "pressureTendency"], "output_attributes_names": ["pressure", "dew_point", "precipitation", "humidity", "temperature", "wind_bearing", "wind_speed", "illuminance", "pressure_tendency"], "output_timestampe_name": "stampm", "output_timestamp_format": "unix_time", "outputs": ["FileOutput()", "KafkaOutput()"], "output_configurations": [{"file_name": "alicante_WeatherObserved_2.csv", "mode": "a"}, {"topic": "measurements_node_alicante_weatherObserved_2", "bootstrap_server": "localhost:9092"}], "from": "2021-05-13T10:00:00.000"}
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "alicante",
+    "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved-2",
+    "minute_in_hour": ":05",
+    "required_attributes": [
+        "atmosphericPressure",
+        "dewPoint",
+        "precipitation",
+        "relativeHumidity",
+        "temperature",
+        "windDirection",
+        "windSpeed",
+        "illuminance",
+        "pressureTendency"
+    ],
+    "output_attributes_names": [
+        "pressure",
+        "dew_point",
+        "precipitation",
+        "humidity",
+        "temperature",
+        "wind_bearing",
+        "wind_speed",
+        "illuminance",
+        "pressure_tendency"
+    ],
+    "output_timestamp_name": "stampm",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()",
+        "KafkaOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "alicante_WeatherObserved_2.csv",
+            "mode": "a"
+        },
+        {
+            "topic": "measurements_node_alicante_weatherObserved_2",
+            "bootstrap_server": "localhost:9092"
+        }
+    ],
+    "from": "2021-05-31T07:00:00.000"
+}

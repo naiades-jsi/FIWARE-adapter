@@ -5,16 +5,19 @@ import requests
 import time
 import logging
 import threading
+from datetime import datetime
 
 from download.downloadScheduler import DownloadScheduler
 
 
 def ping_watchdog():
     interval = 30 # ping interval in seconds
-    url = "atena.ijs.si"
+    url = "localhost"
     port = 5001
     path = "/pingCheckIn/Data adapter"
 
+    # print("{}: Pinging.".format(datetime.now()))
+    
     try:
         r = requests.get("http://{}:{}{}".format(url, port, path))
     except requests.exceptions.RequestException as e:  # This is the correct syntax

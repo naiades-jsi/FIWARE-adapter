@@ -1,6 +1,7 @@
 from time import sleep
 from datetime import datetime
-from itertools import chain 
+from itertools import chain
+import logging
 import json
 import time
 import iso8601
@@ -161,121 +162,126 @@ class NaiadesClient():
             url = self.base_url
 
         # Send the get request
-        r = requests.get(url, headers=self.headers)
+        try:
+            r = requests.get(url, headers=self.headers)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            logging.warning(e)
+        else:
+            logging.info('Successfuly obtained from API ' + time.ctime())
 
-        # If status code is not 200 raise an error
-        if(r.status_code != requests.codes.ok):
-            print("Data from {} could not be obtained. Error code: {}.".format(self.entity_id, r.status_code))
-            return
+            # If status code is not 200 raise an error
+            if(r.status_code != requests.codes.ok):
+                print("Data from {} could not be obtained. Error code: {}.".format(self.entity_id, r.status_code))
+                return
 
-        # Retrieve attributest and timestamps from body of response
-        body = r.json()
-        attributes = body["attributes"]
-        timestamps = body["index"]
+            # Retrieve attributest and timestamps from body of response
+            body = r.json()
+            attributes = body["attributes"]
+            timestamps = body["index"]
 
-        number_of_samples = len(timestamps)
-        # Required to see if request needs to be repeated
-        total_samples_obtained = len(timestamps)
+            number_of_samples = len(timestamps)
+            # Required to see if request needs to be repeated
+            total_samples_obtained = len(timestamps)
 
-        # if there is at least one sample
-        if(number_of_samples > 0):
+            # if there is at least one sample
+            if(number_of_samples > 0):
 
-            # Remove last_timestamp timestamps
-            remove = 0
-            while(timestamps[remove] == self.last_timestamp):
-                remove += 1
-                if(remove >= number_of_samples):
-                    return
-            number_of_samples -= remove
-            timestamps = timestamps[remove:]
-            for a in attributes:
-                a["values"] = a["values"][remove:]
+                # Remove last_timestamp timestamps
+                remove = 0
+                while(timestamps[remove] == self.last_timestamp):
+                    remove += 1
+                    if(remove >= number_of_samples):
+                        return
+                number_of_samples -= remove
+                timestamps = timestamps[remove:]
+                for a in attributes:
+                    a["values"] = a["values"][remove:]
 
-            # Creates a dictionary with attribute names for keys and arrays of
-            # values for values
-            attributers_dict = {}
-            for a in attributes:
-                attributers_dict[a["attrName"]] = a["values"]
+                # Creates a dictionary with attribute names for keys and arrays of
+                # values for values
+                attributers_dict = {}
+                for a in attributes:
+                    attributers_dict[a["attrName"]] = a["values"]
 
-            # For every sample send out a dictionary with the data
-            for sample in range(number_of_samples):
-                # Create a dictionary to ba outputted and add attributes to it
-                # with defined names
+                # For every sample send out a dictionary with the data
+                for sample in range(number_of_samples):
+                    # Create a dictionary to ba outputted and add attributes to it
+                    # with defined names
 
-                # Transforms timestamp to specified format if needed
-                if(self.output_timestamp_format == "iso8601"):
-                    t = timestamps[sample]
-                elif(self.output_timestamp_format == "unix_time"):
-                    t = self.iso8601ToUnix(timestamps[sample])
-                else:
-                    print("Output timestamp format not supported")
-                    exit(1)
+                    # Transforms timestamp to specified format if needed
+                    if(self.output_timestamp_format == "iso8601"):
+                        t = timestamps[sample]
+                    elif(self.output_timestamp_format == "unix_time"):
+                        t = self.iso8601ToUnix(timestamps[sample])
+                    else:
+                        print("Output timestamp format not supported")
+                        exit(1)
 
-                # Loops over required attributes and adds them to the
-                # output_dict
-                output_dict = {self.output_timestamp_name: t}
-                for i in range(len(self.required_attributes)):
-                    output_attribute_name = self.output_attributes_names[i]
-                    attribute = attributers_dict[self.required_attributes[i]][sample]
-                    # If output_attribute_name is a list that means that 
-                    # attribute is also a list and elements of the list are
-                    # added to the output_dict.
-                    if(isinstance(output_attribute_name, list)):
-                        if(not isinstance(attribute, list)):
-                            print("Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
-                            attribute = [None] * len(output_attribute_name)
-                        elif(len(attribute) < len(output_attribute_name)):
-                            print("Warrning: Obtained attribute {} is supposed to be of length {} but is not. None values will be added.".format(attribute, len(output_attribute_name)))
-                            while(len(attribute) < len(output_attribute_name)):
-                                attribute.append(None)
-                        elif(len(attribute) > len(output_attribute_name)):
-                            print("Warrning: Obtained attribute {} is supposed to be of shape {} but is not. None value will be used instead.".format(attribute, output_attribute_name))
-                            attribute = [None] * len(output_attribute_name)
-                        for name_idx in range(len(output_attribute_name)):
-                            name = output_attribute_name[name_idx]
-                            attribute_value = attribute[name_idx]
-                            
+                    # Loops over required attributes and adds them to the
+                    # output_dict
+                    output_dict = {self.output_timestamp_name: t}
+                    for i in range(len(self.required_attributes)):
+                        output_attribute_name = self.output_attributes_names[i]
+                        attribute = attributers_dict[self.required_attributes[i]][sample]
+                        # If output_attribute_name is a list that means that 
+                        # attribute is also a list and elements of the list are
+                        # added to the output_dict.
+                        if(isinstance(output_attribute_name, list)):
+                            if(not isinstance(attribute, list)):
+                                print("Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
+                                attribute = [None] * len(output_attribute_name)
+                            elif(len(attribute) < len(output_attribute_name)):
+                                print("Warrning: Obtained attribute {} is supposed to be of length {} but is not. None values will be added.".format(attribute, len(output_attribute_name)))
+                                while(len(attribute) < len(output_attribute_name)):
+                                    attribute.append(None)
+                            elif(len(attribute) > len(output_attribute_name)):
+                                print("Warrning: Obtained attribute {} is supposed to be of shape {} but is not. None value will be used instead.".format(attribute, output_attribute_name))
+                                attribute = [None] * len(output_attribute_name)
+                            for name_idx in range(len(output_attribute_name)):
+                                name = output_attribute_name[name_idx]
+                                attribute_value = attribute[name_idx]
+                                
+                                # If attribute_value is string try to convert it
+                                if(isinstance(attribute_value, str)):
+                                    try:
+                                        attribute_value = float(attribute_value)
+                                    except ValueError:
+                                        pass
+
+                                output_dict[name] = attribute_value
+
+                        else:
                             # If attribute_value is string try to convert it
-                            if(isinstance(attribute_value, str)):
+                            if(isinstance(attribute, str)):
                                 try:
-                                    attribute_value = float(attribute_value)
+                                    attribute = float(attribute)
                                 except ValueError:
                                     pass
+                            output_dict[output_attribute_name] = attribute
+                    
+                    for o in self.outputs:
+                        # Send out the dictionary with the output component
+                        o.send_out(output_dict=output_dict,
+                                datetime_timestamp=self.iso8601ToDatetime(timestamps[sample]))
 
-                            output_dict[name] = attribute_value
+                # Set last timestamp to the last sample's timestamp
+                self.last_timestamp = timestamps[-1]
 
-                    else:
-                        # If attribute_value is string try to convert it
-                        if(isinstance(attribute, str)):
-                            try:
-                                attribute = float(attribute)
-                            except ValueError:
-                                pass
-                        output_dict[output_attribute_name] = attribute
+                if(self.production_mode):
+                    # Also change config file so if adapter crashes and reruns it
+                    # continues from where it finished
+                    with open(self.configuration_path) as data_file:
+                        conf = json.load(data_file)
+                        conf["from"] = self.last_timestamp
                 
-                for o in self.outputs:
-                    # Send out the dictionary with the output component
-                    o.send_out(output_dict=output_dict,
-                               datetime_timestamp=self.iso8601ToDatetime(timestamps[sample]))
+                    # Write the content back
+                    with open(self.configuration_path, "w") as f:
+                        json.dump(conf, f)
 
-            # Set last timestamp to the last sample's timestamp
-            self.last_timestamp = timestamps[-1]
-
-            if(self.production_mode):
-                # Also change config file so if adapter crashes and reruns it
-                # continues from where it finished
-                with open(self.configuration_path) as data_file:
-                    conf = json.load(data_file)
-                    conf["from"] = self.last_timestamp
-            
-                # Write the content back
-                with open(self.configuration_path, "w") as f:
-                    json.dump(conf, f)
-
-            # API is limited to 10000 samples per respons, so if that count is
-            # reached one should probably repeat the call
-            if(total_samples_obtained == 10000):
-                self.obtain()
+                # API is limited to 10000 samples per respons, so if that count is
+                # reached one should probably repeat the call
+                if(total_samples_obtained == 10000):
+                    self.obtain()
 
     def obtain_periodically(self) -> None:
         # A method that periodicly calls the obtain method every

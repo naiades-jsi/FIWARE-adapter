@@ -1,1 +1,31 @@
-{"production_mode": true, "ip": "5.53.108.182", "port": "8668", "fiware_service": "alicante", "entity_id": "urn:ngsi-ld:Device:Rambla-Volume", "hour_in_day": "10:30", "required_attributes": ["value"], "output_attributes_names": ["value"], "output_timestampe_name": "time", "output_timestamp_format": "unix_time", "outputs": ["FileOutput()", "KafkaOutput()"], "output_configurations": [{"file_name": "alicante_Rambla_Volume.csv", "mode": "a"}, {"topic": "measurements_node_alicante_rambla_volume", "bootstrap_server": "localhost:9092"}], "from": "2021-05-12T21:59:04.000"}
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "alicante",
+    "entity_id": "urn:ngsi-ld:Device:Rambla-Volume",
+    "hour_in_day": "10:30",
+    "required_attributes": [
+        "value"
+    ],
+    "output_attributes_names": [
+        "value"
+    ],
+    "output_timestamp_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()",
+        "KafkaOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "alicante_Rambla_Volume.csv",
+            "mode": "a"
+        },
+        {
+            "topic": "measurements_node_alicante_rambla_volume",
+            "bootstrap_server": "localhost:9092"
+        }
+    ],
+    "from": "2021-05-29T21:59:12.000"
+}

@@ -1,1 +1,31 @@
-{"production_mode": true, "ip": "5.53.108.182", "port": "8668", "fiware_service": "alicante", "entity_id": "urn:ngsi-ld:Device:EA001-36-Level", "hour_in_day": "09:05", "required_attributes": ["value"], "output_attributes_names": ["value"], "output_timestampe_name": "time", "output_timestamp_format": "unix_time", "outputs": ["FileOutput()", "KafkaOutput()"], "output_configurations": [{"file_name": "alicante_salinity_EA001_36_level.csv", "mode": "a"}, {"topic": "measurements_node_alicante_salinity_EA001_36_level", "bootstrap_server": "localhost:9092"}], "from": "2021-05-11T21:59:25.000"}
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "alicante",
+    "entity_id": "urn:ngsi-ld:Device:EA001-36-Level",
+    "hour_in_day": "09:05",
+    "required_attributes": [
+        "value"
+    ],
+    "output_attributes_names": [
+        "value"
+    ],
+    "output_timestamp_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()",
+        "KafkaOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "alicante_salinity_EA001_36_level.csv",
+            "mode": "a"
+        },
+        {
+            "topic": "measurements_node_alicante_salinity_EA001_36_level",
+            "bootstrap_server": "localhost:9092"
+        }
+    ],
+    "from": "2021-05-29T21:59:04.000"
+}

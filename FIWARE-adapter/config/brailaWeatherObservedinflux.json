@@ -4,7 +4,7 @@
     "port": "8668",
     "fiware_service": "braila",
     "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved",
-    "seconds_between_samples": 2,
+    "minute_in_hour": ":02",
     "required_attributes": [
         "atmosphericPressure",
         "dewPoint",
@@ -22,14 +22,21 @@
         "windBearing",
         "windSpeed",
         "visibility"],
-    "output_timestampe_name": "time",
+    "output_timestamp_name": "time",
     "output_timestamp_format": "unix_time",
-    "outputs": ["FileOutput()"],
+    "outputs": ["InfluxOutput()", "TerminalOutput()"],
     "output_configurations": 
     [
         {
-            "file_name": "brailaWeatherObserved.csv",
-            "mode": "w"
-        }
-    ]
+            "ip": "localhost",
+            "port": "8086",
+            "org": "myorg",
+            "token": "mytoken",
+            "bucket": "braila",
+            "measurement": "weather_observed",
+            "tags": "{}"
+        },
+        {}
+    ],
+    "from": "2021-05-30T07:10:00.000"
 }

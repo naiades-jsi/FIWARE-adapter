@@ -27,7 +27,7 @@
         "illuminance",
         "pressure_tendency"
     ],
-    "output_timestampe_name": "stampm",
+    "output_timestamp_name": "stampm",
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()",
@@ -42,5 +42,6 @@
             "topic": "measurements_node_carouge_weatherObserved",
             "bootstrap_server": "localhost:9092"
         }
-    ]
+    ],
+    "from": "2020-12-17T17:00:00.000"
 }
