@@ -15,7 +15,8 @@
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()",
-        "KafkaOutput()"
+        "KafkaOutput()",
+        "InfluxOutput()"
     ],
     "output_configurations": [
         {
@@ -25,7 +26,16 @@
         {
             "topic": "measurements_node_carouge_device_1f02",
             "bootstrap_server": "localhost:9092"
+        },
+        {
+            "ip": "localhost",
+            "port": "8086",
+            "org": "naiades",
+            "token": "AOAm_a0wPNlX3u10m0Fl7gBLeKZwjV67tYPvpU4FRLxNZPmRLS-BDV81jtUKzC_siO1VPqCkTfzo8H9OVEv5eQ==",
+            "bucket": "carouge",
+            "measurement": "device_1f02",
+            "tags": "{}"
         }
     ],
-    "from": "2021-05-31T08:43:51.000"
+    "from": "2021-06-14T08:43:49.000"
 }

@@ -19,7 +19,8 @@
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()",
-        "KafkaOutput()"
+        "KafkaOutput()",
+        "InfluxOutput()"
     ],
     "output_configurations": [
         {
@@ -29,7 +30,16 @@
         {
             "topic": "measurements_node_braila_noise2182",
             "bootstrap_server": "localhost:9092"
+        },
+        {
+            "ip": "localhost",
+            "port": "8086",
+            "org": "naiades",
+            "token": "AOAm_a0wPNlX3u10m0Fl7gBLeKZwjV67tYPvpU4FRLxNZPmRLS-BDV81jtUKzC_siO1VPqCkTfzo8H9OVEv5eQ==",
+            "bucket": "braila",
+            "measurement": "noise2182",
+            "tags": "{}"
         }
     ],
-    "from": "2021-05-30T12:00:00.000"
+    "from": "2021-06-13T12:00:00.000"
 }
