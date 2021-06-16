@@ -21,7 +21,7 @@
     "output_configurations": [
         {
             "file_name": "carouge_device_1f06.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_carouge_device_1f06",
