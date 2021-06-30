@@ -44,6 +44,14 @@
         "productionKafka/carouge/carouge_device_1f08.json",
         "productionKafka/carouge/carouge_device_1f09.json",
         "productionKafka/carouge/carouge_device_1f10.json",
+        "productionKafka/carouge/carouge_flower_bed_1.json",
+        "productionKafka/carouge/carouge_flower_bed_2.json",
+        "productionKafka/carouge/carouge_flower_bed_3.json",
+        "productionKafka/carouge/carouge_flower_bed_4.json",
+        "productionKafka/carouge/carouge_flower_bed_5.json",
+        "productionKafka/carouge/carouge_flower_bed_6.json",
+        "productionKafka/carouge/carouge_flower_bed_7.json",
+        "productionKafka/carouge/carouge_flower_bed_8.json",
         "productionKafka/carouge/carougeWeatherObserved.json"
     ]
 }
