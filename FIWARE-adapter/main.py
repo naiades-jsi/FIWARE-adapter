@@ -16,15 +16,15 @@ def ping_watchdog():
     port = 5001
     path = "/pingCheckIn/Data adapter"
 
-    # print("{}: Pinging.".format(datetime.now()))
-    
-    try:
-        r = requests.get("http://{}:{}{}".format(url, port, path))
-    except requests.exceptions.RequestException as e:  # This is the correct syntax
-        logging.warning(e)
-    else:
-        logging.info('Successful ping at ' + time.ctime())
-    threading.Timer(interval, ping_watchdog).start()
+    if(threading.main_thread().is_alive()):
+        # print("{}: Pinging.".format(datetime.now()))
+        try:
+            r = requests.get("http://{}:{}{}".format(url, port, path))
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            logging.warning(e)
+        else:
+            logging.info('Successful ping at ' + time.ctime())
+        threading.Timer(interval, ping_watchdog).start()
 
 def main():
     parser = argparse.ArgumentParser(description="scheduler")
