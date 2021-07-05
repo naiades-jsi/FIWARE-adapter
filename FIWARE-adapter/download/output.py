@@ -139,7 +139,7 @@ class FileOutput(Output):
         except OSError:
             # If too many opened files wait one second and try again.
             time.sleep(1)
-            print("{}: Too many opened files. Retrying now.".format(datetime.now()), flush=True)
+            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.write_csv(output_dict=output_dict)
 
         # Write the content back
@@ -149,7 +149,7 @@ class FileOutput(Output):
         except OSError:
             # If too many opened files wait one second and try again.
             time.sleep(1)
-            print("{}: Too many opened files. Retrying now.".format(datetime.now()), flush=True)
+            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.write_csv(output_dict=output_dict)
 
     def write_csv(self, output_dict: Dict[str, Any]) -> None:
@@ -160,7 +160,7 @@ class FileOutput(Output):
         except OSError:
             # If too many opened files wait one second and try again.
             time.sleep(1)
-            print("{}: Too many opened files. Retrying now.".format(datetime.now()), flush=True)
+            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.write_csv(output_dict=output_dict)
 
 
