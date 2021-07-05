@@ -6,6 +6,7 @@ import json
 import csv
 import os
 import datetime
+import time
 
 from kafka import KafkaProducer
 
@@ -130,19 +131,37 @@ class FileOutput(Output):
 
     def write_JSON(self, output_dict: Dict[str, Any]) -> None:
         # Read content of file and add output_dict
-        with open(self.file_path) as json_file:
-            data = json.load(json_file)
-            temp = data["data"]
-            temp.append(output_dict)
-        
+        try:
+            with open(self.file_path) as json_file:
+                data = json.load(json_file)
+                temp = data["data"]
+                temp.append(output_dict)
+        except OSError:
+            # If too many opened files wait one second and try again.
+            time.sleep(1)
+            print("{}: Too many opened files. Retrying now.".format(datetime.now()), flush=True)
+            self.write_csv(output_dict=output_dict)
+
         # Write the content back
-        with open(self.file_path, "w") as f:
-            json.dump(data, f)
+        try:
+            with open(self.file_path, "w") as f:
+                json.dump(data, f)
+        except OSError:
+            # If too many opened files wait one second and try again.
+            time.sleep(1)
+            print("{}: Too many opened files. Retrying now.".format(datetime.now()), flush=True)
+            self.write_csv(output_dict=output_dict)
 
     def write_csv(self, output_dict: Dict[str, Any]) -> None:
-        with open(self.file_path, 'a', newline='') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=self.field_names)
-            writer.writerow(output_dict)
+        try:
+            with open(self.file_path, 'a', newline='') as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=self.field_names)
+                writer.writerow(output_dict)
+        except OSError:
+            # If too many opened files wait one second and try again.
+            time.sleep(1)
+            print("{}: Too many opened files. Retrying now.".format(datetime.now()), flush=True)
+            self.write_csv(output_dict=output_dict)
 
 
 class InfluxOutput(Output):
