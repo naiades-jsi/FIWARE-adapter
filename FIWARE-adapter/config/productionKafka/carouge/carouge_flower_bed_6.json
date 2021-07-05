@@ -61,7 +61,7 @@
     "output_configurations": [
         {
             "file_name": "carouge_flower_bed_6.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_carouge_flower_bed_6",
@@ -76,5 +76,6 @@
             "measurement": "flower_bed_6",
             "tags": "{}"
         }
-    ]
+    ],
+    "from": "2021-07-01T08:42:23.000"
 }
