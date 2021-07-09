@@ -208,8 +208,14 @@ class InfluxOutput(Output):
         only_values = output_dict
         del only_values[self.output_timestamp_name]
 
-        # Write to database
-        self.influx_writer.write(self.bucket, self.org,
-                                 [{"measurement": self.measurement,
-                                   "tags": self.tags, "fields": only_values,
-                                   "time": timestamp}])
+        try:
+            # Write to database
+            self.influx_writer.write(self.bucket, self.org,
+                                    [{"measurement": self.measurement,
+                                    "tags": self.tags, "fields": only_values,
+                                    "time": timestamp}])
+        except OSError:
+            # If too many opened files wait one second and try again.
+            time.sleep(1)
+            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
+            self.send_out(output_dict=output_dict)

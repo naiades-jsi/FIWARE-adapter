@@ -1,0 +1,65 @@
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "carouge",
+    "entity_id": "urn:ngsi-ld:FlowerBed:FlowerBed-6",
+    "hour_in_day": "09:00",
+    "required_attributes": [
+        "boxSize",
+        "consumption",
+        "dateLastWatering",
+        "depth",
+        "duration",
+        "feedback",
+        "flowerType",
+        "height",
+        "location",
+        "moistureDeviceEui",
+        "nextWateringAmountAdvice",
+        "nextWateringAmountRecomendation",
+        "nextWateringAmountRecommendation",
+        "nextWateringDeadline",
+        "soilMoisture",
+        "soilMoistureEc",
+        "soilMoistureVwc",
+        "soilTemperature",
+        "soilType",
+        "sunExposure",
+        "width"
+    ],
+    "output_attributes_names": [
+        "boxSize",
+        "consumption",
+        "dateLastWatering",
+        "depth",
+        "duration",
+        "feedback",
+        "flowerType",
+        "height",
+        "location",
+        "moistureDeviceEui",
+        "nextWateringAmountAdvice",
+        "nextWateringAmountRecomendation",
+        "nextWateringAmountRecommendation",
+        "nextWateringDeadline",
+        "soilMoisture",
+        "soilMoistureEc",
+        "soilMoistureVwc",
+        "soilTemperature",
+        "soilType",
+        "sunExposure",
+        "width"
+    ],
+    "output_timestamp_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "carouge_flower_bed_6.csv",
+            "mode": "w"
+        }
+    ]
+}
