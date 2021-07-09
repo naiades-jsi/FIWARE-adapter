@@ -171,10 +171,9 @@ class InfluxOutput(Output):
     org: str
     bucket: str
     measurement: str
+    url: str
     tags: Dict
     output_timestamp_name: str
-
-    influx_writer: Any
 
     def __init__(self, conf: Dict[Any, Any] = None) -> None:
         super().__init__()
@@ -189,10 +188,7 @@ class InfluxOutput(Output):
         self.port = conf["port"]
         self.token = conf["token"]
         self.org = conf["org"]
-        url = "http://" + self.ip + ":" + self.port
-
-        self.influx_writer = InfluxDBClient(url=url, token=self.token,
-                                            org=self.org).write_api(write_options=ASYNCHRONOUS)
+        self.url = "http://" + self.ip + ":" + self.port
 
         self.bucket = conf["bucket"]
         self.measurement = conf["measurement"]
@@ -209,13 +205,18 @@ class InfluxOutput(Output):
         del only_values[self.output_timestamp_name]
 
         try:
+            influx_writer = InfluxDBClient(url=self.url, token=self.token,
+                                            org=self.org).write_api(write_options=ASYNCHRONOUS)
+        
             # Write to database
-            self.influx_writer.write(self.bucket, self.org,
+            influx_writer.write(self.bucket, self.org,
                                     [{"measurement": self.measurement,
                                     "tags": self.tags, "fields": only_values,
                                     "time": timestamp}])
+            
+            influx_writer.close()
         except OSError:
             # If too many opened files wait one second and try again.
-            time.sleep(1)
+            time.sleep(10)
             print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.send_out(output_dict=output_dict)
