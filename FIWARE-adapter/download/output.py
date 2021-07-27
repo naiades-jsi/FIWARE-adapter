@@ -138,7 +138,7 @@ class FileOutput(Output):
                 temp.append(output_dict)
         except OSError:
             # If too many opened files wait one second and try again.
-            time.sleep(1)
+            time.sleep(100)
             print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.write_csv(output_dict=output_dict)
 
@@ -148,7 +148,7 @@ class FileOutput(Output):
                 json.dump(data, f)
         except OSError:
             # If too many opened files wait one second and try again.
-            time.sleep(1)
+            time.sleep(100)
             print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.write_csv(output_dict=output_dict)
 
@@ -159,7 +159,7 @@ class FileOutput(Output):
                 writer.writerow(output_dict)
         except OSError:
             # If too many opened files wait one second and try again.
-            time.sleep(1)
+            time.sleep(100)
             print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.write_csv(output_dict=output_dict)
 
@@ -174,6 +174,7 @@ class InfluxOutput(Output):
     url: str
     tags: Dict
     output_timestamp_name: str
+    influx_writer: Any
 
     def __init__(self, conf: Dict[Any, Any] = None) -> None:
         super().__init__()
@@ -195,6 +196,9 @@ class InfluxOutput(Output):
         self.tags = eval(conf["tags"])
         self.output_timestamp_name = conf["output_timestamp_name"]
 
+        self.influx_writer = InfluxDBClient(url=self.url, token=self.token,
+                                       org=self.org).write_api(write_options=ASYNCHRONOUS)
+
 
     def send_out(self, output_dict: Dict[str, Any],
                  datetime_timestamp: Any) -> None:
@@ -204,19 +208,16 @@ class InfluxOutput(Output):
         only_values = output_dict
         del only_values[self.output_timestamp_name]
 
-        try:
-            influx_writer = InfluxDBClient(url=self.url, token=self.token,
-                                            org=self.org).write_api(write_options=ASYNCHRONOUS)
-        
+        try:        
             # Write to database
-            influx_writer.write(self.bucket, self.org,
+            self.influx_writer.write(self.bucket, self.org,
                                     [{"measurement": self.measurement,
                                     "tags": self.tags, "fields": only_values,
                                     "time": timestamp}])
             
-            influx_writer.close()
+            self.influx_writer.close()
         except OSError:
             # If too many opened files wait one second and try again.
-            time.sleep(10)
+            time.sleep(100)
             print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
             self.send_out(output_dict=output_dict)
