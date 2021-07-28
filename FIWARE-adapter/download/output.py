@@ -220,7 +220,7 @@ class InfluxOutput(Output):
 
         try:        
             # Write to database
-            print(only_values, flush=True)
+            #print(only_values, flush=True)
             self.influx_writer.write(self.bucket, self.org,
                                     [{"measurement": self.measurement,
                                     "tags": self.tags, "fields": only_values,
