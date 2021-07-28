@@ -208,9 +208,15 @@ class InfluxOutput(Output):
         only_values = output_dict
         del only_values[self.output_timestamp_name]
 
+
+        # Delete strings that cannot be written to influxdb
+        to_delete = []
         for value in only_values:
             if (isinstance(only_values[value], str)):
-                del only_values[value]
+                to_delete.append(value)
+        
+        for v_d in to_delete:
+            del only_values[v_d]
 
         try:        
             # Write to database
