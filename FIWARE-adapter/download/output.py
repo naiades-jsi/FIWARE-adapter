@@ -212,7 +212,7 @@ class InfluxOutput(Output):
         # Delete strings that cannot be written to influxdb
         to_delete = []
         for value in only_values:
-            if (isinstance(only_values[value], str)):
+            if (isinstance(only_values[value], str) or isinstance(only_values[value], bool)):
                 to_delete.append(value)
         
         for v_d in to_delete:
@@ -220,6 +220,7 @@ class InfluxOutput(Output):
 
         try:        
             # Write to database
+            print(only_values, flush=True)
             self.influx_writer.write(self.bucket, self.org,
                                     [{"measurement": self.measurement,
                                     "tags": self.tags, "fields": only_values,
