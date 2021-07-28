@@ -212,7 +212,7 @@ class InfluxOutput(Output):
         # Delete strings that cannot be written to influxdb
         to_delete = []
         for value in only_values:
-            if (isinstance(only_values[value], str) or isinstance(only_values[value], bool)):
+            if (isinstance(only_values[value], str) or isinstance(only_values[value], bool) or isinstance(only_values[value], dict)):
                 to_delete.append(value)
         
         for v_d in to_delete:
