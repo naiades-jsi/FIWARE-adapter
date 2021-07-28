@@ -208,6 +208,10 @@ class InfluxOutput(Output):
         only_values = output_dict
         del only_values[self.output_timestamp_name]
 
+        for value in only_values:
+            if (isinstance(only_values[value], str)):
+                del only_values[value]
+
         try:        
             # Write to database
             self.influx_writer.write(self.bucket, self.org,
