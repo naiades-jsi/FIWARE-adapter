@@ -248,6 +248,13 @@ class NaiadesClient():
                                     except ValueError:
                                         pass
 
+                                # If attribute_value is dict convert it to string
+                                if(isinstance(attribute_value, dict)):
+                                    try:
+                                        attribute_value = str(attribute_value)
+                                    except ValueError:
+                                        pass
+
                                 output_dict[name] = attribute_value
 
                         else:
