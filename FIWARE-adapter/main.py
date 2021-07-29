@@ -15,7 +15,7 @@ def ping_watchdog(process):
     url = "localhost"
     port = 5001
     path = "/pingCheckIn/Data adapter"
-    print("start ping")
+
     while(process.is_alive()):
         #print("{}: Pinging.".format(datetime.now()))
         try:
