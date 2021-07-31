@@ -31,7 +31,7 @@
     "output_configurations": [
         {
             "file_name": "braila_noise2182.csv",
-            "mode": "w"
+            "mode": "a"
         },
         {
             "topic": "measurements_node_braila_noise2182",
@@ -47,5 +47,5 @@
             "tags": "{}"
         }
     ],
-    "from": "2021-07-26T12:00:00.000"
+    "from": "2021-07-30T12:00:00.000"
 }
