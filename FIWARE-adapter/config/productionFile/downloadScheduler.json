@@ -1,26 +1,8 @@
 {
     "clients": [
-        "productionFile/carouge/carouge_device_0a6a.json",
-        "productionFile/carouge/carouge_device_0a7c.json",
-        "productionFile/carouge/carouge_device_0a80.json",
-        "productionFile/carouge/carouge_device_0a83.json",
-        "productionFile/carouge/carouge_device_1efd.json",
-        "productionFile/carouge/carouge_device_1efe.json",
-        "productionFile/carouge/carouge_device_1eff.json",
-        "productionFile/carouge/carouge_device_1f0d.json",
-        "productionFile/carouge/carouge_device_1f02.json",
-        "productionFile/carouge/carouge_device_1f06.json",
-        "productionFile/carouge/carouge_device_1f08.json",
-        "productionFile/carouge/carouge_device_1f09.json",
-        "productionFile/carouge/carouge_device_1f10.json",
-        "productionFile/carouge/carouge_flower_bed_1.json",
-        "productionFile/carouge/carouge_flower_bed_2.json",
-        "productionFile/carouge/carouge_flower_bed_3.json",
-        "productionFile/carouge/carouge_flower_bed_4.json",
-        "productionFile/carouge/carouge_flower_bed_5.json",
-        "productionFile/carouge/carouge_flower_bed_6.json",
-        "productionFile/carouge/carouge_flower_bed_7.json",
-        "productionFile/carouge/carouge_flower_bed_8.json",
-        "productionFile/carouge/carougeWeatherObserved.json"
+        "productionFile/braila/brailaPressure5770.json",
+        "productionFile/braila/brailaPressure5771.json",
+        "productionFile/braila/brailaPressure5772.json",
+        "productionFile/braila/brailaPressure5773.json"
         ]
 }
