@@ -1,0 +1,5 @@
+{
+    "clients": [
+        "productionKafka/carouge/carouge_environmental_station,json"
+    ]
+}
