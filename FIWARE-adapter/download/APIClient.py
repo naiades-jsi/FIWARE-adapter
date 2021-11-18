@@ -136,11 +136,18 @@ class NaiadesClient():
         output_configurations = conf["output_configurations"]
         #construct field names
         field_names = [self.output_timestamp_name]
-        for a in self.output_attributes_names:
+        for a_indx in range(len(self.output_attributes_names)):
+            a = self.output_attributes_names[a_indx]
             if(isinstance(a, list)):
-                field_names = field_names + a
+                if(a[0] == "dict"):
+                    for name_indx in range(1, len(a)):
+                        full_name = self.required_attributes[a_indx] + "_" + a[name_indx]
+                        field_names.append(full_name)
+                else:
+                    field_names = field_names + a
             else:
                 field_names.append(a)
+        print(field_names)
         for o in range(len(self.outputs)):
             output_configurations[o]["field_names"] = field_names
             # Add output_timestamp_name to output's configuration (for influx output)
@@ -227,7 +234,11 @@ class NaiadesClient():
                         # attribute is also a list and elements of the list are
                         # added to the output_dict.
                         if(isinstance(output_attribute_name, list)):
-                            if(not isinstance(attribute, list)):
+                            is_dict = False
+                            if(isinstance(attribute, dict)):
+                                is_dict=True
+
+                            elif(not isinstance(attribute, list)):
                                 print("Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
                                 attribute = [None] * len(output_attribute_name)
                             elif(len(attribute) < len(output_attribute_name)):
@@ -237,25 +248,48 @@ class NaiadesClient():
                             elif(len(attribute) > len(output_attribute_name)):
                                 print("Warrning: Obtained attribute {} is supposed to be of shape {} but is not. None value will be used instead.".format(attribute, output_attribute_name))
                                 attribute = [None] * len(output_attribute_name)
-                            for name_idx in range(len(output_attribute_name)):
-                                name = output_attribute_name[name_idx]
-                                attribute_value = attribute[name_idx]
-                                
-                                # If attribute_value is string try to convert it
-                                if(isinstance(attribute_value, str)):
-                                    try:
-                                        attribute_value = float(attribute_value)
-                                    except ValueError:
-                                        pass
+                            
+                            if(not is_dict):
+                                for name_idx in range(len(output_attribute_name)):
+                                    name = output_attribute_name[name_idx]
+                                    attribute_value = attribute[name_idx]
+                                    
+                                    # If attribute_value is string try to convert it
+                                    if(isinstance(attribute_value, str)):
+                                        try:
+                                            attribute_value = float(attribute_value)
+                                        except ValueError:
+                                            pass
 
-                                # If attribute_value is dict convert it to string
-                                if(isinstance(attribute_value, dict)):
-                                    try:
-                                        attribute_value = str(attribute_value)
-                                    except ValueError:
-                                        pass
+                                    # If attribute_value is dict convert it to string
+                                    if(isinstance(attribute_value, dict)):
+                                        try:
+                                            attribute_value = str(attribute_value)
+                                        except ValueError:
+                                            pass
+                                            
+                                    output_dict[name] = attribute_value
+                            else:
+                                for name in output_attribute_name:
+                                    if(not name == "dict"):
+                                        attribute_value = attribute[name]
+                                        name = self.required_attributes[i] + "_" + name
+                                        
+                                        # If attribute_value is string try to convert it
+                                        if(isinstance(attribute_value, str)):
+                                            try:
+                                                attribute_value = float(attribute_value)
+                                            except ValueError:
+                                                pass
 
-                                output_dict[name] = attribute_value
+                                        # If attribute_value is dict convert it to string
+                                        if(isinstance(attribute_value, dict)):
+                                            try:
+                                                attribute_value = str(attribute_value)
+                                            except ValueError:
+                                                pass
+
+                                        output_dict[name] = attribute_value
 
                         else:
                             # If attribute_value is string try to convert it
