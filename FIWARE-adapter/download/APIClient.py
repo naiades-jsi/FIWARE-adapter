@@ -147,7 +147,7 @@ class NaiadesClient():
                     field_names = field_names + a
             else:
                 field_names.append(a)
-        print(field_names)
+        #print(field_names)
         for o in range(len(self.outputs)):
             output_configurations[o]["field_names"] = field_names
             # Add output_timestamp_name to output's configuration (for influx output)

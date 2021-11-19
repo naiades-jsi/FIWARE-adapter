@@ -2,7 +2,7 @@
     "production_mode": true,
     "ip": "5.53.108.182",
     "port": "8668",
-    "fiware_service": "carouge",
+    "fiware_service": "braila",
     "entity_id": "urn:ngsi-ld:WeatherForecast:WeatherForecast-Day2-3",
     "hour_in_day": "06:05",
     "required_attributes": [
@@ -36,11 +36,11 @@
     ],
     "output_configurations": [
         {
-            "file_name": "carouge_weather_forecast23.csv",
+            "file_name": "braila_weather_forecast23.csv",
             "mode": "w"
         },
         {
-            "topic": "measurements_node_carouge_weather_forecast23",
+            "topic": "measurements_node_braila_weather_forecast23",
             "bootstrap_server": "localhost:9092"
         },
         {
@@ -48,7 +48,7 @@
             "port": "8086",
             "org": "naiades",
             "token": "AOAm_a0wPNlX3u10m0Fl7gBLeKZwjV67tYPvpU4FRLxNZPmRLS-BDV81jtUKzC_siO1VPqCkTfzo8H9OVEv5eQ==",
-            "bucket": "carouge",
+            "bucket": "braila",
             "measurement": "weather_forecast23",
             "tags": "{}"
         }
