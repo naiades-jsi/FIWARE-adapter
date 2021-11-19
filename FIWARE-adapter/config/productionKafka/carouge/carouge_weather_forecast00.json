@@ -4,7 +4,7 @@
     "port": "8668",
     "fiware_service": "carouge",
     "entity_id": "urn:ngsi-ld:WeatherForecast:WeatherForecast-Day0-0",
-    "hour_in_day": "06:05",
+    "seconds_between_samples": 21600,
     "required_attributes": [
         "dayMaximum",
         "dayMinimum",
