@@ -1,12 +1,8 @@
 {
     "clients": [
-        "productionFile/carouge/carougeFlowerBed1.json",
-        "productionFile/carouge/carougeFlowerBed2.json",
-        "productionFile/carouge/carougeFlowerBed3.json",
-        "productionFile/carouge/carougeFlowerBed4.json",
-        "productionFile/carouge/carougeFlowerBed5.json",
-        "productionFile/carouge/carougeFlowerBed6.json",
-        "productionFile/carouge/carougeFlowerBed7.json",
-        "productionFile/carouge/carougeFlowerBed8.json"
+        "productionFile/braila/brailaPressure5770.json",
+        "productionFile/braila/brailaPressure5771.json",
+        "productionFile/braila/brailaPressure5772.json",
+        "productionFile/braila/brailaPressure5773.json"
         ]
 }
