@@ -85,6 +85,7 @@
         "productionKafka/carouge/carouge_flower_bed_7.json",
         "productionKafka/carouge/carouge_flower_bed_8.json",
         "productionKafka/carouge/carougeWeatherObserved.json",
+        "productionKafka/carouge/carouge_environmental_station.json",
         "productionKafka/carouge/carouge_weather_forecast_environmental00.json",
         "productionKafka/carouge/carouge_weather_forecast_environmental01.json",
         "productionKafka/carouge/carouge_weather_forecast_environmental02.json",
