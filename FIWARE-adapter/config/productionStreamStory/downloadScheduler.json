@@ -1,12 +1,12 @@
 {
     "clients": [
-        "productionStreamStroy/braila/brailaPressure5770.json",
-        "productionStreamStroy/braila/brailaPressure5771.json",
-        "productionStreamStroy/braila/brailaPressure5772.json",
-        "productionStreamStroy/braila/brailaPressure5773.json",
-        "productionStreamStroy/braila/brailaFlow211106H360.json",
-        "productionStreamStroy/braila/brailaFlow211206H360.json",
-        "productionStreamStroy/braila/brailaFlow211306H360.json",
-        "productionStreamStroy/braila/brailaFlow318505H498.json"
+        "productionStreamStory/braila/brailaPressure5770.json",
+        "productionStreamStory/braila/brailaPressure5771.json",
+        "productionStreamStory/braila/brailaPressure5772.json",
+        "productionStreamStory/braila/brailaPressure5773.json",
+        "productionStreamStory/braila/brailaFlow211106H360.json",
+        "productionStreamStory/braila/brailaFlow211206H360.json",
+        "productionStreamStory/braila/brailaFlow211306H360.json",
+        "productionStreamStory/braila/brailaFlow318505H498.json"
     ]
 }
