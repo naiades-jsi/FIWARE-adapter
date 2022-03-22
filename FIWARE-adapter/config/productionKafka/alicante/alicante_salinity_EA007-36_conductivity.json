@@ -11,7 +11,7 @@
   "output_timestamp_format": "unix_time",
   "outputs": ["FileOutput()", "KafkaOutput()", "InfluxOutput()"],
   "output_configurations": [
-    { "file_name": "alicante_salinity_EA007_36_conductivity.csv", "mode": "w" },
+    { "file_name": "alicante_salinity_EA007_36_conductivity.csv", "mode": "a" },
     {
       "topic": "measurements_node_alicante_salinity_EA007_36_conductivity",
       "bootstrap_server": "localhost:9092"
