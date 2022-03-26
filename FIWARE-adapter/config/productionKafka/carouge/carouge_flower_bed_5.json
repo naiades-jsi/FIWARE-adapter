@@ -8,7 +8,6 @@
     "required_attributes": [
         "boxSize",
         "consumption",
-        "dateLastWatering",
         "depth",
         "duration",
         "feedback",
@@ -31,7 +30,6 @@
     "output_attributes_names": [
         "boxSize",
         "consumption",
-        "dateLastWatering",
         "depth",
         "duration",
         "feedback",
