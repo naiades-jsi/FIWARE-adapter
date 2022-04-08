@@ -1,5 +1,8 @@
 {
     "clients": [
-        "productionKafka/carouge/carouge_flower_bed_1.json"
+        "productionKafka/alicante/alicante_salinity_EA003-21_conductivity.json",
+        "productionKafka/alicante/alicante_salinity_EA004-21_conductivity.json",
+        "productionKafka/alicante/alicante_salinity_EA005-21_conductivity.json",
+        "productionKafka/alicante/alicante_salinity_EA001-202_level.json"
     ]
 }
