@@ -19,7 +19,7 @@
     "output_configurations": [
         {
             "file_name": "alicante_Rambla_Flow.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

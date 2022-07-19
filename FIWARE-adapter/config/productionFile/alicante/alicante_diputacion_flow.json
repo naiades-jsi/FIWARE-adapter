@@ -19,7 +19,7 @@
     "output_configurations": [
         {
             "file_name": "alicante_Diputacion_Flow.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

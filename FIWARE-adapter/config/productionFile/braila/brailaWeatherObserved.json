@@ -35,7 +35,7 @@
     "output_configurations": [
         {
             "file_name": "braila_WeatherObserved.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

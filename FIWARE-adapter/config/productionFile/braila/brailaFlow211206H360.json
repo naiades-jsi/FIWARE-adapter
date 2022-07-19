@@ -28,7 +28,7 @@
     "output_configurations": [
         {
             "file_name": "braila_flow211206H360.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

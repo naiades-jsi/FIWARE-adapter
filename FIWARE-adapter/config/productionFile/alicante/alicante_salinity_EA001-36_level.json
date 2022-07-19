@@ -19,7 +19,7 @@
     "output_configurations": [
         {
             "file_name": "alicante_salinity_EA001-36_level.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

@@ -59,7 +59,7 @@
     "output_configurations": [
         {
             "file_name": "carouge_flower_bed_6.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

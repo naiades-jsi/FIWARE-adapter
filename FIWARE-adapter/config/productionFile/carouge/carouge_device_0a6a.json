@@ -19,7 +19,7 @@
     "output_configurations": [
         {
             "file_name": "carouge_device_0a6a.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

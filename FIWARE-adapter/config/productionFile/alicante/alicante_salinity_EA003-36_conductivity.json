@@ -19,7 +19,7 @@
     "output_configurations": [
         {
             "file_name": "alicante_salinity_EA003-36_conductivity.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

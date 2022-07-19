@@ -1,1 +1,27 @@
-{"production_mode": true, "ip": "5.53.108.182", "port": "8668", "fiware_service": "braila", "entity_id": "urn:ngsi-ld:Device:Device-5770", "hour_in_day": "06:20", "required_attributes": ["value"], "output_attributes_names": [["value"]], "output_timestampe_name": "time", "output_timestamp_format": "unix_time", "outputs": ["FileOutput()"], "output_configurations": [{"file_name": "braila_pressure5770.csv", "mode": "w"}], "from": "2021-08-19T00:00:00.000"}
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "braila",
+    "entity_id": "urn:ngsi-ld:Device:Device-5770",
+    "hour_in_day": "06:20",
+    "required_attributes": [
+        "value"
+    ],
+    "output_attributes_names": [
+        [
+            "value"
+        ]
+    ],
+    "output_timestampe_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "braila_pressure5770.csv",
+            "mode": "a"
+        }
+    ]
+}

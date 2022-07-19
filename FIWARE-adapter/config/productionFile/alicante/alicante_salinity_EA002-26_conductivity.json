@@ -9,21 +9,8 @@
   "output_attributes_names": ["value"],
   "output_timestamp_name": "time",
   "output_timestamp_format": "unix_time",
-  "outputs": ["FileOutput()", "KafkaOutput()", "InfluxOutput()"],
+  "outputs": ["FileOutput()"],
   "output_configurations": [
-    { "file_name": "alicante_salinity_EA002_26_conductivity.csv", "mode": "a" },
-    {
-      "topic": "measurements_node_alicante_salinity_EA002_26_conductivity",
-      "bootstrap_server": "localhost:9092"
-    },
-    {
-      "ip": "localhost",
-      "port": "8086",
-      "org": "naiades",
-      "token": "AOAm_a0wPNlX3u10m0Fl7gBLeKZwjV67tYPvpU4FRLxNZPmRLS-BDV81jtUKzC_siO1VPqCkTfzo8H9OVEv5eQ==",
-      "bucket": "alicante",
-      "measurement": "salinity_EA002_26_conductivity",
-      "tags": "{}"
-    }
+    { "file_name": "alicante_salinity_EA002_26_conductivity.csv", "mode": "a" }
   ]
 }
