@@ -22,8 +22,8 @@
   "output_timestamp_format": "unix_time",
   "outputs": [
     "FileOutput()",
-    "KafkaOutput()",
-    "KafkaOutput()",
+    
+    
     "InfluxOutput()"
   ],
   "output_configurations": [

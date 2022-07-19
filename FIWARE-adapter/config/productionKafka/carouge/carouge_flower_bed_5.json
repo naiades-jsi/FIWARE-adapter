@@ -53,7 +53,6 @@
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()",
-        "KafkaOutput()",
         "InfluxOutput()"
     ],
     "output_configurations": [

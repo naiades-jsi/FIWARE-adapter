@@ -14,7 +14,7 @@
   ],
   "output_timestamp_name": "time",
   "output_timestamp_format": "unix_time",
-  "outputs": ["FileOutput()", "KafkaOutput()", "InfluxOutput()"],
+  "outputs": ["FileOutput()",  "InfluxOutput()"],
   "output_configurations": [
     { "file_name": "braila_noise2182.csv", "mode": "a" },
     {
