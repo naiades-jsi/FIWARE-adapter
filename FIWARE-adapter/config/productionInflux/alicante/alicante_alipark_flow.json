@@ -21,7 +21,7 @@
         {
             "file_name": "alicante_Alipark_Flow.csv",
             "mode": "a"
-        }
+        },
         {
             "ip": "localhost",
             "port": "8086",
