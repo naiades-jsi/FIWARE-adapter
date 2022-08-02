@@ -51,6 +51,12 @@ class NaiadesClient():
         with open(configurationPath) as data_file:
             conf = json.load(data_file)
 
+        # Set the server
+        if("platform" in conf):
+            self.platform = conf["platform"]
+        else:
+            self.platform = "UGDA"
+
         if("verbose" in conf):
             self.verbose = conf["verbose"]
         else:
@@ -80,16 +86,24 @@ class NaiadesClient():
             self.base_url = self.base_url + "," + a
 
         # Headers construction
-        self.headers = {
-            "Fiware-Service": self.fiware_service,
-            "Fiware-ServicePath": "/",
-            "Content-Type": "application/json"
-        }
+        if(self.platform == "UGDA"):
+            self.headers = {
+                "Fiware-Service": self.fiware_service,
+                "Fiware-ServicePath": "/",
+                "Content-Type": "application/json"
+            }
+        elif(self.platform == "SIMAVI"):
+            self.headers = {
+                "Content-Type": "application/json"
+            }
+        else:
+            print("Invalid platform", flush=True)
+            exit(1)
 
         # The from field in configuration file must contain
         # SO8601 format (e.g., 2018-01-05T15:44:34)
         if("from" in conf):
-            self.last_timestamp = conf["from"]
+            self.last_timestamp = conf["from"].split('+')[0]
         else:
             self.last_timestamp = None
 
@@ -164,7 +178,7 @@ class NaiadesClient():
 
         # If last timestamp is not None add it to the url parameters
         if(self.last_timestamp is not None):
-            url = self.base_url + "&fromDate=" + self.last_timestamp
+            url = self.base_url + "&fromDate=" + self.last_timestamp.split('+')[0]
         else:
             url = self.base_url
 
@@ -178,6 +192,8 @@ class NaiadesClient():
 
             # If status code is not 200 raise an error
             if(r.status_code != requests.codes.ok):
+                print(url, flush=True)
+                print(self.headers, flush=True)
                 print("Data from {} could not be obtained. Error code: {}.".format(self.entity_id, r.status_code))
                 return
 
@@ -237,7 +253,12 @@ class NaiadesClient():
                             is_dict = False
                             if(isinstance(attribute, dict)):
                                 is_dict=True
+                            
+                            # Test if it is string and cast it to list
+                            elif(isinstance(attribute, str)):
+                                attribute = eval(attribute)
 
+                            # If attribute is not a list (or it is too long/short) insert None instead
                             elif(not isinstance(attribute, list)):
                                 print("Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
                                 attribute = [None] * len(output_attribute_name)
