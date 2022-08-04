@@ -1,10 +1,9 @@
 {
     "production_mode": true,
-    "platform": "SIMAVI",
-    "ip": "naiades.simavi.ro",
+    "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "braila",
-    "entity_id": "urn:ngsi-ld:WaterDemand:WaterDemand-318505H498",
+    "entity_id": "urn:ngsi-ld:Device:Device-211306H360",
     "minute_in_hour": ":05",
     "required_attributes": [
         "value"
@@ -21,14 +20,14 @@
             "alarms_in_decimal"
         ]
     ],
-    "output_timestamp_name": "time",
+    "output_timestampe_name": "time",
     "output_timestamp_format": "unix_time",
     "outputs": [
         "FileOutput()"
     ],
     "output_configurations": [
         {
-            "file_name": "braila_flow318505H498.csv",
+            "file_name": "braila_flow211306H360.csv",
             "mode": "w"
         }
     ]

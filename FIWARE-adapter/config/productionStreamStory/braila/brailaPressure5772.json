@@ -1,9 +1,10 @@
 {
     "production_mode": true,
-    "ip": "5.53.108.182",
+    "platform": "SIMAVI",
+    "ip": "naiades.simavi.ro",
     "port": "8668",
     "fiware_service": "braila",
-    "entity_id": "urn:ngsi-ld:Device:Device-5772",
+    "entity_id": "urn:ngsi-ld:Pressure:Pressure-5772",
     "hour_in_day": "06:20",
     "required_attributes": [
         "value"

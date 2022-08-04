@@ -1,10 +1,9 @@
 {
     "production_mode": true,
-    "platform": "SIMAVI",
-    "ip": "naiades.simavi.ro",
+    "ip": "5.53.108.182",
     "port": "8668",
     "fiware_service": "braila",
-    "entity_id": "urn:ngsi-ld:Pressure:Pressure-5771",
+    "entity_id": "urn:ngsi-ld:Device:Device-5770",
     "hour_in_day": "06:20",
     "required_attributes": [
         "value"
@@ -21,7 +20,7 @@
     ],
     "output_configurations": [
         {
-            "file_name": "braila_pressure5771.csv",
+            "file_name": "braila_pressure5770.csv",
             "mode": "w"
         }
     ]
