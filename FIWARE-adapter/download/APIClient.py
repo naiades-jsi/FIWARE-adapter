@@ -172,6 +172,8 @@ class NaiadesClient():
         # A method that obtains data (since last timestamp if specified)
         # from API
 
+        print(f"obtaining from {self.entity_id}")
+
         # Print message if required
         if(self.verbose == 1):
             print("{}: Obtaining {}.".format(datetime.now(), self.entity_id))
@@ -343,6 +345,7 @@ class NaiadesClient():
                 # API is limited to 10000 samples per respons, so if that count is
                 # reached one should probably repeat the call
                 if(total_samples_obtained == 10000):
+                    print(self.last_timestamp)
                     self.obtain()
 
     def obtain_periodically(self) -> None:
