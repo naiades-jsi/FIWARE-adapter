@@ -1,0 +1,8 @@
+{
+    "clients": [
+        "productionKafka/alicante/alicante_salinity_EA003-21_conductivity.json",
+        "productionKafka/alicante/alicante_salinity_EA004-21_conductivity.json",
+        "productionKafka/alicante/alicante_salinity_EA005-21_conductivity.json",
+        "productionKafka/alicante/alicante_salinity_EA001-202_level.json"
+    ]
+}
