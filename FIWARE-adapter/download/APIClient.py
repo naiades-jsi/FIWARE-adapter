@@ -97,7 +97,7 @@ class NaiadesClient():
                 "Content-Type": "application/json"
             }
         else:
-            print("Invalid platform", flush=True)
+            print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: Invalid platform", flush=True)
             exit(1)
 
         # The from field in configuration file must contain
@@ -172,7 +172,7 @@ class NaiadesClient():
         # A method that obtains data (since last timestamp if specified)
         # from API
 
-        print(f"obtaining from {self.entity_id}")
+        print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: obtaining from {self.entity_id}")
 
         # Print message if required
         if(self.verbose == 1):
@@ -194,9 +194,9 @@ class NaiadesClient():
 
             # If status code is not 200 raise an error
             if(r.status_code != requests.codes.ok):
-                print(url, flush=True)
-                print(self.headers, flush=True)
-                print("Data from {} could not be obtained. Error code: {}.".format(self.entity_id, r.status_code))
+                print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: {url}", flush=True)
+                print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: {self.headers}", flush=True)
+                print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: Data from {self.entity_id} could not be obtained. Error code: {r.status_code}.")
                 return
 
             # Retrieve attributest and timestamps from body of response
@@ -239,7 +239,7 @@ class NaiadesClient():
                     elif(self.output_timestamp_format == "unix_time"):
                         t = self.iso8601ToUnix(timestamps[sample])
                     else:
-                        print("Output timestamp format not supported")
+                        print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: Output timestamp format not supported")
                         exit(1)
 
                     # Loops over required attributes and adds them to the
@@ -262,14 +262,14 @@ class NaiadesClient():
 
                             # If attribute is not a list (or it is too long/short) insert None instead
                             elif(not isinstance(attribute, list)):
-                                print("Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
+                                print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: Warrning: Obtained attribute {} is supposed to be a list (it will be replaced with None values).".format(attribute))
                                 attribute = [None] * len(output_attribute_name)
                             elif(len(attribute) < len(output_attribute_name)):
-                                print("Warrning: Obtained attribute {} is supposed to be of length {} but is not. None values will be added.".format(attribute, len(output_attribute_name)))
+                                print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: Warrning: Obtained attribute {} is supposed to be of length {} but is not. None values will be added.".format(attribute, len(output_attribute_name)))
                                 while(len(attribute) < len(output_attribute_name)):
                                     attribute.append(None)
                             elif(len(attribute) > len(output_attribute_name)):
-                                print("Warrning: Obtained attribute {} is supposed to be of shape {} but is not. None value will be used instead.".format(attribute, output_attribute_name))
+                                print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: Warrning: Obtained attribute {} is supposed to be of shape {} but is not. None value will be used instead.".format(attribute, output_attribute_name))
                                 attribute = [None] * len(output_attribute_name)
                             
                             if(not is_dict):
@@ -345,7 +345,7 @@ class NaiadesClient():
                 # API is limited to 10000 samples per respons, so if that count is
                 # reached one should probably repeat the call
                 if(total_samples_obtained == 10000):
-                    print(self.last_timestamp)
+                    print(f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}: Last timestep: {self.last_timestamp}")
                     self.obtain()
 
     def obtain_periodically(self) -> None:
