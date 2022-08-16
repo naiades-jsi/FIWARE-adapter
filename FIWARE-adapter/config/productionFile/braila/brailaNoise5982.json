@@ -23,7 +23,7 @@
     "output_configurations": [
         {
             "file_name": "braila_noise5982.csv",
-            "mode": "w"
+            "mode": "a"
         }
     ]
 }

@@ -1,0 +1,41 @@
+{
+    "production_mode": true,
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "alicante",
+    "entity_id": "urn:ngsi-ld:WeatherForecast:WeatherForecast-Day1-0",
+    "seconds_between_samples": 21600,
+    "required_attributes": [
+        "dayMaximum",
+        "dayMinimum",
+        "precipitationProbability",
+        "windSpeed"
+    ],
+    "output_attributes_names": [
+        [
+            "dict",
+            "feelsLikeTemperature",
+            "relativeHumidity",
+            "temperature"
+        ],
+        [
+            "dict",
+            "feelsLikeTemperature",
+            "relativeHumidity",
+            "temperature"
+        ],
+        "precipitationProbability",
+        "windSpeed"
+    ],
+    "output_timestamp_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "alicante_weather_forecast10.csv",
+            "mode": "a"
+        }
+    ]
+}

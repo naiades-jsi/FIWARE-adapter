@@ -184,6 +184,8 @@ class InfluxOutput(Output):
     def configure(self, conf: Dict[Any, Any] = None) -> None:
         super().configure(conf=conf)
 
+        #print(conf, flush=True)
+
         # Configura writer
         self.ip = conf["ip"]
         self.port = conf["port"]
@@ -195,6 +197,8 @@ class InfluxOutput(Output):
         self.measurement = conf["measurement"]
         self.tags = eval(conf["tags"])
         self.output_timestamp_name = conf["output_timestamp_name"]
+
+        #print(self.measurement)
 
         self.influx_writer = InfluxDBClient(url=self.url, token=self.token,
                                        org=self.org).write_api(write_options=ASYNCHRONOUS)

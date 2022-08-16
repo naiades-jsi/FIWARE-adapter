@@ -1,0 +1,6 @@
+{
+    "clients": [
+        "productionKafka/alicante/alicante_alipark_flow.json",
+        "productionKafka/alicante/alicante_alipark_volume.json"
+    ]
+}

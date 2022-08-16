@@ -1,8 +1,12 @@
 {
     "clients": [
-        "productionFile/braila/brailaPressure5770.json",
-        "productionFile/braila/brailaPressure5771.json",
-        "productionFile/braila/brailaPressure5772.json",
-        "productionFile/braila/brailaPressure5773.json"
-        ]
+        "productionFile/alicante/alicante_alipark_flow.json",
+        "productionFile/alicante/alicante_autobuses_flow.json",
+        "productionFile/alicante/alicante_benalua_flow.json",
+        "productionFile/alicante/alicante_diputacion_flow.json",
+        "productionFile/alicante/alicante_mercado_flow.json",
+        "productionFile/alicante/alicante_montaneta_flow.json",
+        "productionFile/alicante/alicante_rambla_flow.json"
+
+    ]
 }
