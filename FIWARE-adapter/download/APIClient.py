@@ -261,23 +261,27 @@ class NaiadesClient():
                             if(isinstance(attribute, dict)):
                                 is_dict=True
                             
-                            # Test if it is string and cast it to list
-                            elif(isinstance(attribute, str)):
-                                attribute = eval(attribute)
+                            else:
+                                # Test if it is string and cast it to list
+                                if(isinstance(attribute, str)):
+                                    try:
+                                        attribute = eval(attribute)
+                                    except NameError:
+                                        attribute = [None] * len(output_attribute_name)
 
-                            # If attribute is not a list (or it is too long/short) insert None instead
-                            elif(not isinstance(attribute, list)):
-                                warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                                print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
-                                attribute = [None] * len(output_attribute_name)
-                            elif(len(attribute) < len(output_attribute_name)):
-                                print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
-                                while(len(attribute) < len(output_attribute_name)):
-                                    attribute.append(None)
-                            elif(len(attribute) > len(output_attribute_name)):
-                                print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
-                                attribute = [None] * len(output_attribute_name)
-                            
+                                # If attribute is not a list (or it is too long/short) insert None instead
+                                if(not isinstance(attribute, list)):
+                                    warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                                    print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
+                                    attribute = [None] * len(output_attribute_name)
+                                if(len(attribute) < len(output_attribute_name)):
+                                    print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
+                                    while(len(attribute) < len(output_attribute_name)):
+                                        attribute.append(None)
+                                if(len(attribute) > len(output_attribute_name)):
+                                    print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
+                                    attribute = [None] * len(output_attribute_name)
+                                
                             if(not is_dict):
                                 for name_idx in range(len(output_attribute_name)):
                                     name = output_attribute_name[name_idx]
