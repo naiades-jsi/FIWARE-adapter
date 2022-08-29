@@ -187,6 +187,7 @@ class NaiadesClient():
 
         # Send the get request
         try:
+            print(url, flush=True)
             r = requests.get(url, headers=self.headers)
         except requests.exceptions.RequestException as e:  # This is the correct syntax
             logging.warning(e)
