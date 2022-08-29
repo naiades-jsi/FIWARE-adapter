@@ -16,4 +16,9 @@ for conf_client in conf_clients:
             conf_old = json.load(data_file_old)
         with open("config/productionSIMAVI/" + use_case + "/" + file_name, "w") as data_file_new_r:
             conf_new["from"] = conf_old["from"]
+
+            # Just print
+            old = conf_old["from"]
+            print(f"changing to {old}")
+            
             json.dump(conf_new, data_file_new_r)
