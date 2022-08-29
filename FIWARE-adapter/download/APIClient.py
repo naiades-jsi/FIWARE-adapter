@@ -173,7 +173,7 @@ class NaiadesClient():
         # A method that obtains data (since last timestamp if specified)
         # from API
         warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(f"{warn_time}: obtaining from {self.entity_id}")
+        print(f"{warn_time}: obtaining from {self.entity_id}", flush=True)
 
         # Print message if required
         if(self.verbose == 1):
@@ -206,9 +206,9 @@ class NaiadesClient():
             attributes = body["attributes"]
             timestamps = body["index"]
 
-            number_of_samples = len(timestamps)
             # Required to see if request needs to be repeated
-            total_samples_obtained = len(timestamps)
+            number_of_samples = len(timestamps)
+            print(f"Number of samples obtained: {number_of_samples}", flush=True)
 
             # if there is at least one sample
             if(number_of_samples > 0):
@@ -348,7 +348,7 @@ class NaiadesClient():
 
                 # API is limited to 10000 samples per respons, so if that count is
                 # reached one should probably repeat the call
-                if(total_samples_obtained == 10000):
+                if(number_of_samples == 10000):
                     warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
                     print(f"{warn_time}: Last timestep: {self.last_timestamp}")
                     self.obtain()
