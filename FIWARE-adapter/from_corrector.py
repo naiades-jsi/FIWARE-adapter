@@ -1,6 +1,6 @@
 import json
 
-with open("config/productionOLD/downloadScheduler.json") as data_file:
+with open("config/productionInflux/downloadScheduler.json") as data_file:
     conf = json.load(data_file)
 
 conf_clients = conf["clients"]
