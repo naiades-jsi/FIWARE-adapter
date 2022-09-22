@@ -7,9 +7,14 @@ import csv
 import os
 import datetime
 import time
+import logging
 
 from kafka import KafkaProducer
 
+# logger initialization
+LOGGER = logging.getLogger(__name__)
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
 class Output(ABC):
     from_hour: Any
@@ -127,7 +132,7 @@ class FileOutput(Output):
             elif(self.file_name[-3:] == "csv"):
                 self.write_csv(output_dict=output_dict)
             else:
-                print("Output file type not supported.")
+                LOGGER.error("Output file type not supported.")
 
     def write_JSON(self, output_dict: Dict[str, Any]) -> None:
         # Read content of file and add output_dict
@@ -139,7 +144,7 @@ class FileOutput(Output):
         except OSError:
             # If too many opened files wait one second and try again.
             time.sleep(100)
-            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
+            LOGGER.error("Too many opened files. Retrying now.")
             self.write_csv(output_dict=output_dict)
 
         # Write the content back
@@ -149,7 +154,7 @@ class FileOutput(Output):
         except OSError:
             # If too many opened files wait one second and try again.
             time.sleep(100)
-            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
+            LOGGER.error("Too many opened files. Retrying now.")
             self.write_csv(output_dict=output_dict)
 
     def write_csv(self, output_dict: Dict[str, Any]) -> None:
@@ -160,7 +165,7 @@ class FileOutput(Output):
         except OSError:
             # If too many opened files wait one second and try again.
             time.sleep(100)
-            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
+            LOGGER.error("Too many opened files. Retrying now.")
             self.write_csv(output_dict=output_dict)
 
 
@@ -218,21 +223,21 @@ class InfluxOutput(Output):
         for value in only_values:
             if (isinstance(only_values[value], str) or isinstance(only_values[value], bool) or isinstance(only_values[value], dict)):
                 to_delete.append(value)
-        
+
         for v_d in to_delete:
             del only_values[v_d]
 
-        try:        
+        try:
             # Write to database
             #print(only_values, flush=True)
             self.influx_writer.write(self.bucket, self.org,
                                     [{"measurement": self.measurement,
                                     "tags": self.tags, "fields": only_values,
                                     "time": timestamp}])
-            
+
             self.influx_writer.close()
         except OSError:
             # If too many opened files wait one second and try again.
             time.sleep(100)
-            print("{}: Too many opened files. Retrying now.".format(datetime.datetime.now()), flush=True)
+            LOGGER.error("Too many opened files. Retrying now.")
             self.send_out(output_dict=output_dict)

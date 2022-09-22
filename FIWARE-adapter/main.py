@@ -9,6 +9,10 @@ from multiprocessing import Process
 from time import sleep
 from download.downloadScheduler import DownloadScheduler
 
+# logger initialization
+LOGGER = logging.getLogger(__name__)
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
 def ping_watchdog(process):
     interval = 30 # ping interval in seconds
@@ -56,11 +60,11 @@ def main():
     # Parse input arguments
     args = parser.parse_args()
 
-    
+
 
     # Ping watchdog every 30 seconds if specfied
     if (args.watchdog):
-        logging.info("=== Watchdog started ===")
+        LOGGER.info("=== Watchdog started ===")
 
         # Run and save a parelel process
         # Start periodic download
@@ -70,6 +74,7 @@ def main():
         # On the main thread ping watchdog if child process is alive
         ping_watchdog(process)
     else:
+        LOGGER.info("Starting scheduler")
         scheduler = DownloadScheduler(configuration_path=args.config)
         # Start periodic download
         scheduler.run()

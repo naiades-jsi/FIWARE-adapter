@@ -11,6 +11,10 @@ import requests
 
 from output import Output, KafkaOutput, TerminalOutput, FileOutput, InfluxOutput
 
+# logger initialization
+LOGGER = logging.getLogger(__name__)
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
 class NaiadesClient():
     verbose: int
@@ -99,8 +103,7 @@ class NaiadesClient():
             if hasattr(self, "fiware_service"):
                 self.headers["Fiware-Service"] = self.fiware_service
         else:
-            warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            print(f"{warn_time}: Invalid platform", flush=True)
+            LOGGER.error(f" Invalid platform")
             exit(1)
 
         # The from field in configuration file must contain
@@ -174,12 +177,11 @@ class NaiadesClient():
     def obtain(self) -> None:
         # A method that obtains data (since last timestamp if specified)
         # from API
-        warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(f"{warn_time}: obtaining from {self.entity_id}")
+        LOGGER.info(f"Obtaining from {self.entity_id}")
 
         # Print message if required
         if(self.verbose == 1):
-            print("{}: Obtaining {}.".format(datetime.now(), self.entity_id))
+            LOGGER.info("Obtaining {}.".format(self.entity_id))
 
         # If last timestamp is not None add it to the url parameters
         if(self.last_timestamp is not None):
@@ -193,14 +195,13 @@ class NaiadesClient():
         except requests.exceptions.RequestException as e:  # This is the correct syntax
             logging.warning(e)
         else:
-            logging.info('Successfuly obtained from API ' + time.ctime())
+            logging.info('Successfuly obtained from API')
 
             # If status code is not 200 raise an error
             if(r.status_code != requests.codes.ok):
-                warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                print(f"{warn_time}: {url}", flush=True)
-                print(f"{warn_time}: {self.headers}", flush=True)
-                print(f"{warn_time}: Data from {self.entity_id} could not be obtained. Error code: {r.status_code}.")
+                LOGGER.info(f"URL: {url}")
+                LOGGER.info(f"Headers: {self.headers}")
+                LOGGER.info(f"Data from {self.entity_id} could not be obtained. Error code: {r.status_code}.")
                 return
 
             # Retrieve attributest and timestamps from body of response
@@ -243,8 +244,7 @@ class NaiadesClient():
                     elif(self.output_timestamp_format == "unix_time"):
                         t = self.iso8601ToUnix(timestamps[sample])
                     else:
-                        warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                        print(f"{warn_time}: Output timestamp format not supported")
+                        LOGGER.error(f"Output timestamp format not supported")
                         exit(1)
 
                     # Loops over required attributes and adds them to the
@@ -267,15 +267,14 @@ class NaiadesClient():
 
                             # If attribute is not a list (or it is too long/short) insert None instead
                             elif(not isinstance(attribute, list)):
-                                warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                                print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
+                                LOGGER.warning(f"Warrning: Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
                                 attribute = [None] * len(output_attribute_name)
                             elif(len(attribute) < len(output_attribute_name)):
-                                print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
+                                LOGGER.warning(f"Warrning: Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
                                 while(len(attribute) < len(output_attribute_name)):
                                     attribute.append(None)
                             elif(len(attribute) > len(output_attribute_name)):
-                                print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
+                                LOGGER.warning(f"Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
                                 attribute = [None] * len(output_attribute_name)
 
                             if(not is_dict):
@@ -351,8 +350,7 @@ class NaiadesClient():
                 # API is limited to 10000 samples per respons, so if that count is
                 # reached one should probably repeat the call
                 if(total_samples_obtained == 10000):
-                    warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                    print(f"{warn_time}: Last timestep: {self.last_timestamp}")
+                    LOGGER.info(f"Last timestep: {self.last_timestamp}")
                     self.obtain()
 
     def obtain_periodically(self) -> None:

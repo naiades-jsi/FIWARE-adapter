@@ -4,6 +4,12 @@ import json
 import schedule
 import sys
 import os
+import logging
+
+# logger initialization
+LOGGER = logging.getLogger(__name__)
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
 sys.path.append(os.path.abspath('./download'))
 
@@ -14,7 +20,7 @@ class DownloadScheduler():
 
     def __init__(self, configuration_path: str = None) -> None:
         self.configuration(configurationPath=configuration_path)
-    
+
     def configuration(self, configurationPath: str = None) -> None:
         # Read config file
         full_path = "config/" + configurationPath
@@ -53,7 +59,7 @@ class DownloadScheduler():
                 else:
                     schedule.every().day.at(client.hour_in_day).do(client.obtain)
             else:
-                print("Client {} cant be scheduled.".format(client.entity_id))
+                LOGGER.info("Client {} cant be scheduled.".format(client.entity_id))
 
     def run(self) -> None:
         # When started run all jobs (download data till now)

@@ -8,4 +8,6 @@ COPY ./requirements.txt /requirements.txt
 WORKDIR /
 RUN pip3 install -r requirements.txt
 COPY . /
+
+# e3ailab/fiware_adapter_ircai
 CMD ["python3", "main.py", "-c", "productionSIMAVI/downloadScheduler.json"]
