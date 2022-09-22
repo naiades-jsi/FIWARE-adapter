@@ -191,11 +191,12 @@ class NaiadesClient():
 
         # Send the get request
         try:
+            LOGGER.info("URL: %s", url)
             r = requests.get(url, headers=self.headers)
         except requests.exceptions.RequestException as e:  # This is the correct syntax
-            logging.warning(e)
+            LOGGER.warning(e)
         else:
-            logging.info('Successfuly obtained from API')
+            LOGGER.info('Successfuly obtained from API')
 
             # If status code is not 200 raise an error
             if(r.status_code != requests.codes.ok):
@@ -209,9 +210,10 @@ class NaiadesClient():
             attributes = body["attributes"]
             timestamps = body["index"]
 
-            number_of_samples = len(timestamps)
             # Required to see if request needs to be repeated
-            total_samples_obtained = len(timestamps)
+            number_of_samples = len(timestamps)
+            LOGGER.info(f"Number of samples obtained: {number_of_samples}")
+            total_number_of_samples = number_of_samples
 
             # if there is at least one sample
             if(number_of_samples > 0):
@@ -261,21 +263,25 @@ class NaiadesClient():
                             if(isinstance(attribute, dict)):
                                 is_dict=True
 
-                            # Test if it is string and cast it to list
-                            elif(isinstance(attribute, str)):
-                                attribute = eval(attribute)
+                            else:
+                                # Test if it is string and cast it to list
+                                if(isinstance(attribute, str)):
+                                    try:
+                                        attribute = eval(attribute)
+                                    except NameError:
+                                        attribute = [None] * len(output_attribute_name)
 
-                            # If attribute is not a list (or it is too long/short) insert None instead
-                            elif(not isinstance(attribute, list)):
-                                LOGGER.warning(f"Warrning: Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
-                                attribute = [None] * len(output_attribute_name)
-                            elif(len(attribute) < len(output_attribute_name)):
-                                LOGGER.warning(f"Warrning: Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
-                                while(len(attribute) < len(output_attribute_name)):
-                                    attribute.append(None)
-                            elif(len(attribute) > len(output_attribute_name)):
-                                LOGGER.warning(f"Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
-                                attribute = [None] * len(output_attribute_name)
+                                # If attribute is not a list (or it is too long/short) insert None instead
+                                if(not isinstance(attribute, list)):
+                                    LOGGER.info(f"Warrning: Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
+                                    attribute = [None] * len(output_attribute_name)
+                                if(len(attribute) < len(output_attribute_name)):
+                                    LOGGER.info(f"Warrning: Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
+                                    while(len(attribute) < len(output_attribute_name)):
+                                        attribute.append(None)
+                                if(len(attribute) > len(output_attribute_name)):
+                                    LOGGER.info(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
+                                    attribute = [None] * len(output_attribute_name)
 
                             if(not is_dict):
                                 for name_idx in range(len(output_attribute_name)):
@@ -349,7 +355,7 @@ class NaiadesClient():
 
                 # API is limited to 10000 samples per respons, so if that count is
                 # reached one should probably repeat the call
-                if(total_samples_obtained == 10000):
+                if(total_number_of_samples == 10000):
                     LOGGER.info(f"Last timestep: {self.last_timestamp}")
                     self.obtain()
 
