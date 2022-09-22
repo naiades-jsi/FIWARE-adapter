@@ -96,7 +96,7 @@ class NaiadesClient():
             self.headers = {
                 "Content-Type": "application/json"
             }
-            if ("fiware_service" in self):
+            if hasattr(self, "fiware_service"):
                 self.headers["Fiware-Service"] = self.fiware_service
         else:
             warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
