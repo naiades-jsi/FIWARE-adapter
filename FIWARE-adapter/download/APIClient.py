@@ -28,7 +28,7 @@ class NaiadesClient():
     output_timestamp_format: str
     base_url: str
     headers: Dict[str, str]
-    
+
     last_timestamp: str
 
     # TIMING
@@ -61,7 +61,7 @@ class NaiadesClient():
             self.verbose = conf["verbose"]
         else:
             self.verbose = 0
-        
+
         if("production_mode" in conf):
             self.production_mode = conf["production_mode"]
         else:
@@ -73,7 +73,7 @@ class NaiadesClient():
         self.fiware_service = conf["fiware_service"]
         self.entity_id = conf["entity_id"]
         self.required_attributes = conf["required_attributes"]
-        
+
         # Makes shure that some required attributes are specified
         assert len(self.required_attributes) > 0, "Required attributes must be specified"
 
@@ -96,6 +96,8 @@ class NaiadesClient():
             self.headers = {
                 "Content-Type": "application/json"
             }
+            if ("fiware_service" in self):
+                self.headers["Fiware-Service"] = self.fiware_service
         else:
             warn_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             print(f"{warn_time}: Invalid platform", flush=True)
@@ -251,14 +253,14 @@ class NaiadesClient():
                     for i in range(len(self.required_attributes)):
                         output_attribute_name = self.output_attributes_names[i]
                         attribute = attributers_dict[self.required_attributes[i]][sample]
-                        # If output_attribute_name is a list that means that 
+                        # If output_attribute_name is a list that means that
                         # attribute is also a list and elements of the list are
                         # added to the output_dict.
                         if(isinstance(output_attribute_name, list)):
                             is_dict = False
                             if(isinstance(attribute, dict)):
                                 is_dict=True
-                            
+
                             # Test if it is string and cast it to list
                             elif(isinstance(attribute, str)):
                                 attribute = eval(attribute)
@@ -275,12 +277,12 @@ class NaiadesClient():
                             elif(len(attribute) > len(output_attribute_name)):
                                 print(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
                                 attribute = [None] * len(output_attribute_name)
-                            
+
                             if(not is_dict):
                                 for name_idx in range(len(output_attribute_name)):
                                     name = output_attribute_name[name_idx]
                                     attribute_value = attribute[name_idx]
-                                    
+
                                     # If attribute_value is string try to convert it
                                     if(isinstance(attribute_value, str)):
                                         try:
@@ -294,14 +296,14 @@ class NaiadesClient():
                                             attribute_value = str(attribute_value)
                                         except ValueError:
                                             pass
-                                            
+
                                     output_dict[name] = attribute_value
                             else:
                                 for name in output_attribute_name:
                                     if(not name == "dict"):
                                         attribute_value = attribute[name]
                                         name = self.required_attributes[i] + "_" + name
-                                        
+
                                         # If attribute_value is string try to convert it
                                         if(isinstance(attribute_value, str)):
                                             try:
@@ -326,7 +328,7 @@ class NaiadesClient():
                                 except ValueError:
                                     pass
                             output_dict[output_attribute_name] = attribute
-                    
+
                     for o in self.outputs:
                         # Send out the dictionary with the output component
                         o.send_out(output_dict=output_dict,
@@ -341,7 +343,7 @@ class NaiadesClient():
                     with open(self.configuration_path) as data_file:
                         conf = json.load(data_file)
                         conf["from"] = self.last_timestamp
-                
+
                     # Write the content back
                     with open(self.configuration_path, "w") as f:
                         json.dump(conf, f)
