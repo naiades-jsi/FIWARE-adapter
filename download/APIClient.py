@@ -1,3 +1,4 @@
+from concurrent.futures.process import _threads_wakeups
 from time import sleep
 from datetime import datetime
 from itertools import chain
@@ -208,11 +209,24 @@ class NaiadesClient():
             body = r.json()
             attributes = body["attributes"]
             timestamps = body["index"]
+            alt_ts_status = False
+
             # create alternative timestamp and remove dataObserved from
             # attributes
-            if "dateObserved" in attributes:
-                alt_timestamps = attributes["dateObserved"]
-                del(attributes["dateObserved"])
+            for i in range(len(attributes)):
+                if ("attrName" in attributes[i]) and (attributes[i]["attrName"] == "dateObserved"):
+                    LOGGER.info("Alternative timestamp is used: dateObserved!")
+                    alt_timestamps = attributes[i]["values"]
+                    del(attributes[i])
+                    # setting status of the existence ot alternative timestamps to True
+                    alt_ts_status = True
+                    break
+
+            # remove "dateObserved" from self.required_attributes
+            for i in range(len(self.required_attributes)):
+                if self.required_attributes[i] == "dateObserved":
+                    del(self.required_attributes[i])
+                    break
 
             # Required to see if request needs to be repeated
             number_of_samples = len(timestamps)
@@ -231,7 +245,8 @@ class NaiadesClient():
                         return
                 number_of_samples -= remove
                 timestamps = timestamps[remove:]
-                alt_timestamps = alt_timestamps[remove:]
+                if alt_ts_status:
+                    alt_timestamps = alt_timestamps[remove:]
                 for a in attributes:
                     a["values"] = a["values"][remove:]
 
@@ -248,12 +263,12 @@ class NaiadesClient():
 
                     # Transforms timestamp to specified format if needed
                     if(self.output_timestamp_format == "iso8601"):
-                        if len(alt_timestamps[sample]) > 10:
-                            t = alt_timestamps[stample]
+                        if  (alt_ts_status) and (alt_timestamps[sample] != None):
+                            t = alt_timestamps[sample]
                         else:
                             t = timestamps[sample]
                     elif(self.output_timestamp_format == "unix_time"):
-                        if len(alt_timestamps[sample]) > 10:
+                        if (alt_ts_status) and (alt_timestamps[sample] != None):
                             t = self.iso8601ToUnix(alt_timestamps[sample])
                         else:
                             t = self.iso8601ToUnix(timestamps[sample])
@@ -285,14 +300,14 @@ class NaiadesClient():
 
                                 # If attribute is not a list (or it is too long/short) insert None instead
                                 if(not isinstance(attribute, list)):
-                                    LOGGER.info(f"Warrning: Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
+                                    LOGGER.warning(f"Obtained attribute {attribute} is supposed to be a list (it will be replaced with None values).")
                                     attribute = [None] * len(output_attribute_name)
                                 if(len(attribute) < len(output_attribute_name)):
-                                    LOGGER.info(f"Warrning: Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
+                                    LOGGER.warning(f"Obtained attribute {attribute} is supposed to be of length {len(output_attribute_name)} but is not. None values will be added.")
                                     while(len(attribute) < len(output_attribute_name)):
                                         attribute.append(None)
                                 if(len(attribute) > len(output_attribute_name)):
-                                    LOGGER.info(f"{warn_time}: Warrning: Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
+                                    LOGGER.warning(f"Obtained attribute {attribute} is supposed to be of shape {output_attribute_name} but is not. None value will be used instead.")
                                     attribute = [None] * len(output_attribute_name)
 
                             if(not is_dict):
