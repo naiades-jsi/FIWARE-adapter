@@ -222,7 +222,8 @@ class NaiadesClient():
             # if there is at least one sample
             if(number_of_samples > 0):
 
-                # Remove last_timestamp timestamps
+                # Remove potentially duplicate entries from
+                # last API call: last_timestamp timestamps
                 remove = 0
                 while(timestamps[remove] == self.last_timestamp):
                     remove += 1
@@ -230,6 +231,7 @@ class NaiadesClient():
                         return
                 number_of_samples -= remove
                 timestamps = timestamps[remove:]
+                alt_timestamps = alt_timestamps[remove:]
                 for a in attributes:
                     a["values"] = a["values"][remove:]
 
@@ -246,11 +248,17 @@ class NaiadesClient():
 
                     # Transforms timestamp to specified format if needed
                     if(self.output_timestamp_format == "iso8601"):
-                        t = timestamps[sample]
+                        if len(alt_timestamps[sample]) > 10:
+                            t = alt_timestamps[stample]
+                        else:
+                            t = timestamps[sample]
                     elif(self.output_timestamp_format == "unix_time"):
-                        t = self.iso8601ToUnix(timestamps[sample])
+                        if len(alt_timestamps[sample]) > 10:
+                            t = self.iso8601ToUnix(alt_timestamps[sample])
+                        else:
+                            t = self.iso8601ToUnix(timestamps[sample])
                     else:
-                        LOGGER.error(f"Output timestamp format not supported")
+                        LOGGER.exception(f"Output timestamp format not supported")
                         exit(1)
 
                     # Loops over required attributes and adds them to the
