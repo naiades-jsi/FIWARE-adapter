@@ -204,10 +204,15 @@ class NaiadesClient():
 
             LOGGER.info('Successfuly obtained from API')
 
-            # Retrieve attributest and timestamps from body of response
+            # Retrieve attributes and timestamps from body of response
             body = r.json()
             attributes = body["attributes"]
             timestamps = body["index"]
+            # create alternative timestamp and remove dataObserved from
+            # attributes
+            if "dateObserved" in attributes:
+                alt_timestamps = attributes["dateObserved"]
+                del(attributes["dateObserved"])
 
             # Required to see if request needs to be repeated
             number_of_samples = len(timestamps)
