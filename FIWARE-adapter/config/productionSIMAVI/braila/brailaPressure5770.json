@@ -1,1 +1,37 @@
-{"production_mode": true, "platform": "SIMAVI", "ip": "naiades.simavi.ro", "port": "8668", "fiware_service": "braila", "entity_id": "urn:ngsi-ld:Pressure:Pressure-5770", "hour_in_day": "06:20", "required_attributes": ["value"], "output_attributes_names": ["value"], "output_timestamp_name": "time", "output_timestamp_format": "unix_time", "outputs": ["FileOutput()", "InfluxOutput()"], "output_configurations": [{"file_name": "braila_pressure5770.csv", "mode": "a"}, {"ip": "localhost", "port": "8086", "org": "naiades", "token": "ZykEIhhYe0KRjleAAjFX9LhEm_H7SeLiLe6Kc71f1452Lps7U6MECvOHw9UooSanWwm7SKqe0kTXDnOhoAMNNA==", "bucket": "braila", "measurement": "pressure5770", "tags": "{}"}], "from": "2021-08-09T21:30:00.000"}
+{
+    "production_mode": true,
+    "platform": "SIMAVI",
+    "ip": "naiades.simavi.ro",
+    "port": "8668",
+    "fiware_service": "braila",
+    "entity_id": "urn:ngsi-ld:Pressure:Pressure-5770",
+    "hour_in_day": "06:20",
+    "required_attributes": [
+        "value"
+    ],
+    "output_attributes_names": [
+        "value"
+    ],
+    "output_timestamp_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()",
+        "InfluxOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "braila_pressure5770.csv",
+            "mode": "a"
+        },
+        {
+            "ip": "localhost",
+            "port": "8086",
+            "org": "naiades",
+            "token": "ZykEIhhYe0KRjleAAjFX9LhEm_H7SeLiLe6Kc71f1452Lps7U6MECvOHw9UooSanWwm7SKqe0kTXDnOhoAMNNA==",
+            "bucket": "braila",
+            "measurement": "pressure5770",
+            "tags": "{}"
+        }
+    ],
+    "from": "2021-08-09T21:30:00.000"
+}
