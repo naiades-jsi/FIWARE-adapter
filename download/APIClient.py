@@ -196,14 +196,13 @@ class NaiadesClient():
         except requests.exceptions.RequestException as e:  # This is the correct syntax
             LOGGER.warning(e)
         else:
-            LOGGER.info('Successfuly obtained from API')
-
             # If status code is not 200 raise an error
             if(r.status_code != requests.codes.ok):
-                LOGGER.info(f"URL: {url}")
                 LOGGER.info(f"Headers: {self.headers}")
                 LOGGER.info(f"Data from {self.entity_id} could not be obtained. Error code: {r.status_code}.")
                 return
+
+            LOGGER.info('Successfuly obtained from API')
 
             # Retrieve attributest and timestamps from body of response
             body = r.json()
