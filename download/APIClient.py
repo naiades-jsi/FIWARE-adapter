@@ -100,7 +100,7 @@ class NaiadesClient():
             self.headers = {
                 "Content-Type": "application/json"
             }
-            if hasattr(self, "fiware_service"):
+            if self.fiware_service != "":
                 self.headers["Fiware-Service"] = self.fiware_service
         else:
             LOGGER.error(f" Invalid platform")
