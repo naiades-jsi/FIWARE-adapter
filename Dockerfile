@@ -1,6 +1,6 @@
-# BUILDING: docker build -t <container_name> .
-# RUNNING: docker run <container_name>
-# e.g. docker run fiware_adapter
+# BUILDING: docker build -t e3ailab/fiware_adapter_ircai .
+# RUNNING: docker run -d --network=host e3ailab/fiware_adapter_ircai
+
 FROM ubuntu:20.04
 RUN apt-get update -y && \
     apt-get install -y python3-pip python3-dev
