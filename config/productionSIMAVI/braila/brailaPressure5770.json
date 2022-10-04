@@ -7,7 +7,8 @@
     "entity_id": "urn:ngsi-ld:Pressure:Pressure-5770",
     "hour_in_day": "06:20",
     "required_attributes": [
-        "value"
+        "value",
+        "dateObserved"
     ],
     "output_attributes_names": [
         "value"

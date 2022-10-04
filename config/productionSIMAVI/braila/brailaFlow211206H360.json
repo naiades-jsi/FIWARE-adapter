@@ -7,7 +7,8 @@
     "entity_id": "urn:ngsi-ld:WaterDemand:WaterDemand-211206H360",
     "minute_in_hour": ":05",
     "required_attributes": [
-        "value"
+        "value",
+        "dateObserved"
     ],
     "output_attributes_names": [
         [
