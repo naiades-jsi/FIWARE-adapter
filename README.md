@@ -1,14 +1,13 @@
-# NAIADES Toolkit (for streaming)
-Tools for NAIADES stream processing engine include external tools, that will be updated for the use in NAIADES. External tools are linked as Git submodules.
+# NAIADES FIWARE adapter
+This component is designed to periodically download samples from the NAIADES HISTORIC API and output it to either a file, kafka topic, influxdb or to the terminal. It is designed from two components: one for downloading and one (or more) for outputting the samples.
 
-It includes the following solutions:
+## Running the code:
+To run the code you only need to execute the main.py script with the following command:\
+python main.py -c configuration file\
+all The code is located in the download directory.
 
-| Name | Description | Relation |
-| :--- | :--- | :--- |
-| iot-rapids | Framework for storing IoT and external streaming data sources. The framework includes a crawlers' system for downloading external data sources such as publicly available ground- and surface water datasets, weather data and similar. | T5.1, T5.3 |
-| iot-fusion | Framework for heterogeneous streaming data fusion. It can generate uniform and coherent feature vectors in an on-line scenario from a set of streaming sources (e. g. IoT data stream, weather forecasts, current weather data and additional use-case related antropogenic data). The vectors can be then sent to an external modeling component or an internal modeling/anomaly detection service can be used. | T5.1, T5.3 |
-| ml-rapids | Very fast library with the implementation of incremental learning methods. Currently the methods are exported to Python; integration into NodeJS is planned. |
-| forecasting | Python (currently `2.7.x`; should be upgraded) module that can ingest data from `iot-fuson` and generate predictions based on a pre-trained model. Model training is closely coupled with `iot-fusion` functionalities. | T5.1, T5.3 |
-| streamstory-py | A Python clone of a [StreamStory project](https://github.com/JozefStefanInstitute/StreamStory). It will be developed in collaboration with the FACTLOG project. Alternatively, we can upgrade the existing repository. | T4.4 |
-
-Most of the components are loosely coupled via a Kafka interface.
+## Configuration file:
+The configuration specified in the -c tag is the path to a configuration relative to the config directory. This is the main configuration file that only holds the field clients. This field contains a list of relative paths to the configuration files specific to each entity. \\
+The subdirectory config/productionKafka contains all the configurations required for running the adapter for all required entities and outputting them to influx, kafka and file. The main configuration file in this case is config/productionKafka/configurationScheduler.json\\
+The subdirectory config/productionFile contains most of the configurations required for running the adapter and output the results to the files. The main configuration file in this case is config/productionFile/configurationScheduler.json\\
+The subdirectory config/productionStreamStory contains all of the configurations required for the stream story for running the adapter and output the results to the files. The main configuration file in this case is config/productionStreamStory/configurationScheduler.json\\
