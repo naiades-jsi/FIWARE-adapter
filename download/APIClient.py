@@ -351,7 +351,7 @@ class NaiadesClient():
 
                     # Write the content back
                     with open(self.configuration_path, "w") as f:
-                        json.dump(conf, f)
+                        json.dump(conf, f, indent=4)
 
                 # API is limited to 10000 samples per respons, so if that count is
                 # reached one should probably repeat the call
