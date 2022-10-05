@@ -3,7 +3,7 @@
     "platform": "SIMAVI",
     "ip": "naiades.simavi.ro",
     "port": "8668",
-    "fiware_service": "alicante",
+    "fiware_service": "",
     "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved-Alicante",
     "minute_in_hour": ":05",
     "required_attributes": [
