@@ -90,27 +90,6 @@
         "productionSIMAVI/carouge/carouge_flower_bed_6.json",
         "productionSIMAVI/carouge/carouge_flower_bed_7.json",
         "productionSIMAVI/carouge/carouge_flower_bed_8.json",
-        "productionSIMAVI/carouge/carougeWeatherObserved.json",
-        "productionSIMAVI/carouge/carouge_environmental_station.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental00.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental01.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental02.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental03.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental10.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental11.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental12.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast_environmental13.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast00.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast01.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast02.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast03.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast10.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast11.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast12.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast13.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast20.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast21.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast22.json",
-        "productionSIMAVI/carouge/carouge_weather_forecast23.json"
+        "productionSIMAVI/carouge/carougeWeatherObserved.json"
     ]
 }

@@ -3,7 +3,7 @@
     "platform": "SIMAVI",
     "ip": "naiades.simavi.ro",
     "port": "8668",
-    "fiware_service": "braila",
+    "fiware_service": "",
     "entity_id": "urn:ngsi-ld:WeatherObserved:WeatherObserved-Braila",
     "minute_in_hour": ":02",
     "required_attributes": [
