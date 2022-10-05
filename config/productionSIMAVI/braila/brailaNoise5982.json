@@ -8,7 +8,7 @@
     "hour_in_day": "11:05",
     "required_attributes": [
         "value",
-        "isMovedToNewLocation",
+        "newLocation",
         "location",
         "name"
     ],

@@ -3,7 +3,7 @@
     "platform": "SIMAVI",
     "ip": "naiades.simavi.ro",
     "port": "8668",
-    "fiware_service": "braila",
+    "fiware_service": "",
     "entity_id": "urn:ngsi-ld:Pressure:Pressure-5772",
     "hour_in_day": "06:20",
     "required_attributes": [
