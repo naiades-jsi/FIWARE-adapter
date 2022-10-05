@@ -1,4 +1,5 @@
 # BUILDING: docker build -t e3ailab/fiware_adapter_ircai .
+# PUSHING: docker push e3ailab/fiware_adapter_ircai
 # RUNNING: docker run -d --network=host e3ailab/fiware_adapter_ircai
 
 FROM ubuntu:20.04
