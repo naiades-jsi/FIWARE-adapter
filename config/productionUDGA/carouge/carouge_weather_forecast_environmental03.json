@@ -43,7 +43,7 @@
             "ip": "localhost",
             "port": "8086",
             "org": "naiades",
-            "token": "ZykEIhhYe0KRjleAAjFX9LhEm_H7SeLiLe6Kc71f1452Lps7U6MECvOHw9UooSanWwm7SKqe0kTXDnOhoAMNNA==",
+            "token": "lSMAgMivOgUDG0f3jeAb4sbJd-T-fZ_-L0h37LInLaxVwzCJ7XTlnegiKBkYYzaMg4sBLcP5CYPaSes7t9e2vw==",
             "bucket": "carouge",
             "measurement": "weather_forecast_environmental03",
             "tags": "{}"
