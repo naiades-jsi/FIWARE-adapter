@@ -1,0 +1,53 @@
+{
+    "production_mode": true,
+    "platform": "UGDA",
+    "ip": "5.53.108.182",
+    "port": "8668",
+    "fiware_service": "carouge",
+    "entity_id": "urn:ngsi-ld:WeatherForecast:WeatherForecast-Day0-2",
+    "seconds_between_samples": 21600,
+    "required_attributes": [
+        "dayMaximum",
+        "dayMinimum",
+        "precipitationProbability",
+        "windSpeed"
+    ],
+    "output_attributes_names": [
+        [
+            "dict",
+            "feelsLikeTemperature",
+            "relativeHumidity",
+            "temperature"
+        ],
+        [
+            "dict",
+            "feelsLikeTemperature",
+            "relativeHumidity",
+            "temperature"
+        ],
+        "precipitationProbability",
+        "windSpeed"
+    ],
+    "output_timestamp_name": "time",
+    "output_timestamp_format": "unix_time",
+    "outputs": [
+        "FileOutput()",
+        "InfluxOutput()"
+    ],
+    "output_configurations": [
+        {
+            "file_name": "carouge_weather_forecast02.csv",
+            "mode": "w"
+        },
+        {
+            "ip": "localhost",
+            "port": "8086",
+            "org": "naiades",
+            "token": "ZykEIhhYe0KRjleAAjFX9LhEm_H7SeLiLe6Kc71f1452Lps7U6MECvOHw9UooSanWwm7SKqe0kTXDnOhoAMNNA==",
+            "bucket": "carouge",
+            "measurement": "weather_forecast02",
+            "tags": "{}"
+        }
+    ],
+    "from": "2022-09-28T21:30:00.000"
+}
